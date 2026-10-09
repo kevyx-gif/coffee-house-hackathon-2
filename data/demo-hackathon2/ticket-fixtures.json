@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "environment": "demo_sintetica",
+  "notice": "Tickets y lecturas ficticios. No contienen teléfonos, nombres ni ventas reales. Los precios se consultan en data/catalog.json; no se duplican aquí.",
+  "whatsapp_order_fixtures": [
+    {
+      "ticket_id": "DEMO-WA-ORD-001",
+      "customer_id": "cliente-demo-001",
+      "status": "pendiente_revision_personal",
+      "items": [
+        {"product_id": "hot_latte", "variant": "mediano", "quantity": 1},
+        {"modifier_id": "leche_avena", "quantity": 1}
+      ],
+      "expected_total_cents_from_catalog": 8500,
+      "inventory_change_before_staff_acceptance": false,
+      "purpose": "Probar que el cliente ve el resumen, confirma, se crea la solicitud y el stock aún no cambia."
+    }
+  ],
+  "point_of_sale_receipt_fixtures": [
+    {
+      "receipt_id": "DEMO-POS-001",
+      "synthetic_ocr_lines": [
+        {"product_id": "hot_latte", "variant": "mediano", "quantity": 1, "confidence": 0.98},
+        {"product_id": "espresso", "variant": "presentacion_unica", "quantity": 2, "confidence": 0.95}
+      ],
+      "expected_total_cents_from_catalog": 17000,
+      "requires_cashier_confirmation": true,
+      "expected_result": "No cambia inventario hasta que el cajero revise y confirme las líneas."
+    },
+    {
+      "receipt_id": "DEMO-POS-002",
+      "synthetic_ocr_lines": [
+        {"unresolved_text": "latte mediano con leche", "quantity": 1, "confidence": 0.58}
+      ],
+      "expected_total_cents_from_catalog": null,
+      "requires_cashier_confirmation": true,
+      "expected_result": "Pedir aclaración; no elegir tipo de leche, calcular un total ni descontar inventario por suposición."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "environment": "demo_sintetica",
+  "notice": "TODAS las cantidades son ficticias y sirven solo para pruebas. No representan existencias reales de Coffee & Matcha House.",
+  "currency": "MXN",
+  "items": [
+    {"id": "grano_cafe", "name": "Grano de café", "unit": "g", "on_hand": 900},
+    {"id": "leche_entera", "name": "Leche entera", "unit": "ml", "on_hand": 4800},
+    {"id": "leche_avena", "name": "Leche de avena", "unit": "ml", "on_hand": 1200},
+    {"id": "leche_almendras", "name": "Leche de almendras", "unit": "ml", "on_hand": 0},
+    {"id": "matcha", "name": "Matcha en polvo", "unit": "g", "on_hand": 160},
+    {"id": "concentrado_chai", "name": "Concentrado de chai", "unit": "ml", "on_hand": 900},
+    {"id": "galleta_oreo", "name": "Galleta tipo Oreo", "unit": "g", "on_hand": 0},
+    {"id": "hielo", "name": "Hielo", "unit": "g", "on_hand": 3200},
+    {"id": "base_frappe", "name": "Base para frappé", "unit": "g", "on_hand": 700},
+    {"id": "vaso_12oz", "name": "Vaso de 12 oz", "unit": "unidad", "on_hand": 36},
+    {"id": "vaso_16oz", "name": "Vaso de 16 oz", "unit": "unidad", "on_hand": 42}
+  ]
+}

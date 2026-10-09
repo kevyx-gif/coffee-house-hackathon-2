@@ -1,0 +1,97 @@
+{
+  "date": "2026-10-09",
+  "scope": "solo imágenes, números y tickets ficticios; sin conexión a Meta ni a modelos",
+  "engine": "tesseract 5.5.3",
+  "language": "spa",
+  "traineddata_source": "tesseract-ocr/tessdata_fast@923915d4ced2a7235221788285785a29c4a42d4a",
+  "traineddata_sha256": "6f2e04d02774a18f01bed44b1111f2cd7f3ba7ac9dc4373cd3f898a40ea6b464",
+  "cases": {
+    "limpio": {
+      "recognized": [
+        {
+          "product_id": "hot_latte",
+          "variant": "mediano",
+          "quantity": 1,
+          "confidence": 0.9501016700000001
+        }
+      ],
+      "unresolved_count": 0,
+      "elapsed_ms": 128,
+      "passed": true
+    },
+    "girado_180": {
+      "recognized": [
+        {
+          "product_id": "hot_latte",
+          "variant": "mediano",
+          "quantity": 1,
+          "confidence": 0.9501016700000001
+        }
+      ],
+      "unresolved_count": 0,
+      "elapsed_ms": 512,
+      "passed": true
+    },
+    "girado_90": {
+      "recognized": [
+        {
+          "product_id": "hot_latte",
+          "variant": "mediano",
+          "quantity": 1,
+          "confidence": 0.9501016700000001
+        }
+      ],
+      "unresolved_count": 0,
+      "elapsed_ms": 521,
+      "passed": true
+    },
+    "girado_270": {
+      "recognized": [
+        {
+          "product_id": "hot_latte",
+          "variant": "mediano",
+          "quantity": 1,
+          "confidence": 0.9501016700000001
+        }
+      ],
+      "unresolved_count": 0,
+      "elapsed_ms": 525,
+      "passed": true
+    },
+    "borroso": {
+      "recognized": [],
+      "unresolved_count": 1,
+      "elapsed_ms": 421,
+      "passed": true
+    },
+    "parcial": {
+      "recognized": [
+        {
+          "product_id": "hot_latte",
+          "variant": "mediano",
+          "quantity": 1,
+          "confidence": 0.9501016700000001
+        }
+      ],
+      "unresolved_count": 0,
+      "elapsed_ms": 120,
+      "passed": true
+    },
+    "producto_desconocido": {
+      "recognized": [],
+      "unresolved_count": 1,
+      "elapsed_ms": 110,
+      "passed": true
+    }
+  },
+  "workflow": {
+    "proposal_ms": 116,
+    "stock_unchanged_before_confirmation": true,
+    "duplicate_photo_rejected": true,
+    "confirmed_status": "confirmed",
+    "movement_count": 3,
+    "stock_delta_matches_demo_recipe": true,
+    "no_partial_movement": true
+  },
+  "result": "PASSED"
+}

@@ -1,0 +1,6 @@
+--index-url https://download.pytorch.org/whl/cpu
+--extra-index-url https://pypi.org/simple
+
+torch==2.14.1+cpu
+accelerate==1.15.0
+transformers==5.18.0

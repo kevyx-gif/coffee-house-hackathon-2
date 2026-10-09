@@ -1,0 +1,29 @@
+[Unit]
+Description=Coffee House H2 pinned local Qwen3Guard service
+After=network.target
+
+[Service]
+Type=simple
+User=coffeehouse-h2-guard
+Group=coffeehouse-h2-guard
+WorkingDirectory=/opt/coffee-house-hackathon2-guard
+EnvironmentFile=/etc/coffee-house-hackathon2-guard/guard.env
+Environment=HF_HUB_OFFLINE=1
+Environment=TRANSFORMERS_OFFLINE=1
+Environment=HF_HUB_DISABLE_TELEMETRY=1
+Environment=HF_HOME=/var/lib/coffee-house-hackathon2-guard/hf-home
+Environment=PYTHONUNBUFFERED=1
+StateDirectory=coffee-house-hackathon2-guard
+ExecStart=/opt/coffee-house-hackathon2-guard/.venv/bin/python /opt/coffee-house-hackathon2-guard/guard_service.py --host 127.0.0.1 --port 18473 --snapshot=${QWEN3GUARD_SNAPSHOT}
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/coffee-house-hackathon2-guard
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

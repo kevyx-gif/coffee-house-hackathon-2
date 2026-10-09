@@ -1,0 +1,16 @@
+Host coffee-house-h2-vps
+    HostName REPLACE_WITH_VPS_HOST
+    User coffee-house-h2-tunnel
+    Port 22
+    IdentityFile /home/REPLACE_WITH_TOWER_USER/.config/coffee-house-hackathon2-tunnel/id_ed25519
+    IdentitiesOnly yes
+    BatchMode yes
+    StrictHostKeyChecking yes
+    UserKnownHostsFile /home/REPLACE_WITH_TOWER_USER/.config/coffee-house-hackathon2-tunnel/known_hosts
+    ServerAliveInterval 30
+    ServerAliveCountMax 3
+    ExitOnForwardFailure yes
+    ForwardAgent no
+    ForwardX11 no
+    RequestTTY no
+    RemoteForward 127.0.0.1:19091 127.0.0.1:18473

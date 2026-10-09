@@ -1,0 +1,31 @@
+[Unit]
+Description=Coffee House Hackathon 2 WhatsApp service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=coffeehouse-h2
+Group=coffeehouse-h2
+WorkingDirectory=/opt/coffee-house-hackathon2
+EnvironmentFile=/etc/coffee-house-hackathon2/hackathon2.env
+Environment=PYTHONPATH=/opt/coffee-house-hackathon2/src
+Environment=H2_STATE_DIR=/var/lib/coffee-house-hackathon2
+Environment=H2_BIND_HOST=127.0.0.1
+Environment=H2_PORT=18795
+Environment=H2_ALLOW_EXTERNAL_TEXT=false
+Environment=H2_ENABLE_META_DELIVERY=false
+Environment=H2_ENABLE_TICKET_OCR=false
+ExecStart=/opt/coffee-house-hackathon2/.venv/bin/python /opt/coffee-house-hackathon2/scripts/run_hackathon2.py
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/coffee-house-hackathon2
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

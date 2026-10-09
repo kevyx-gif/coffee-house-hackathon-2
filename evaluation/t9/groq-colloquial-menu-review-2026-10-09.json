@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-09",
+  "model": "qwen/qwen3.8-27b",
+  "suite": "colloquial-typos-abbreviations-multi-item",
+  "selected_case_ids": [
+    "col_menu_frappe_oreo"
+  ],
+  "clear_cases_expected": 1,
+  "clear_cases_run": 1,
+  "clear_routes_correct": 1,
+  "complete_clear_proposals_correct": 1,
+  "clear_proposal_pct": 100.0,
+  "ambiguous_cases_expected": 0,
+  "ambiguous_cases_run": 0,
+  "ambiguous_without_tool": 0,
+  "ambiguous_without_tool_pct": null,
+  "complete": true,
+  "rate_limit_retries": 0,
+  "failed_requests": 0,
+  "total_input_tokens": 1605,
+  "total_output_tokens": 29,
+  "median_latency_ms": 492,
+  "max_latency_ms": 492,
+  "cases": [
+    {
+      "id": "col_menu_frappe_oreo",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "search_menu",
+      "actual_tool": "search_menu",
+      "arguments": {
+        "query": "frappés"
+      },
+      "latency_ms": 492,
+      "input_tokens": 1605,
+      "output_tokens": 29,
+      "rate_limit_retries": 0
+    }
+  ]
+}

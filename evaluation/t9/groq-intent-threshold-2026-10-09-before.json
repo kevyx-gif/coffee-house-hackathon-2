@@ -1,0 +1,445 @@
+{
+  "date": "2026-10-09",
+  "model": "qwen/qwen3.8-27b",
+  "clear_cases_expected": 20,
+  "clear_cases_run": 20,
+  "clear_routes_correct": 18,
+  "clear_route_pct": 90.0,
+  "complete_clear_proposals_correct": 18,
+  "complete_clear_proposal_pct": 90.0,
+  "ambiguous_cases_expected": 5,
+  "ambiguous_cases_run": 5,
+  "ambiguous_without_tool": 5,
+  "ambiguous_without_tool_pct": 100.0,
+  "complete": true,
+  "rate_limit_retries": 0,
+  "failed_requests": 0,
+  "total_input_tokens": 17996,
+  "total_output_tokens": 976,
+  "median_latency_ms": 399,
+  "max_latency_ms": 551,
+  "cases": [
+    {
+      "id": "menu_latte",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "search_menu",
+      "actual_tool": "search_menu",
+      "arguments": {
+        "query": "latte"
+      },
+      "latency_ms": 438,
+      "input_tokens": 896,
+      "output_tokens": 28,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "menu_frappe",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "search_menu",
+      "actual_tool": "search_menu",
+      "arguments": {
+        "query": "frappés"
+      },
+      "latency_ms": 341,
+      "input_tokens": 900,
+      "output_tokens": 29,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "menu_tea",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "search_menu",
+      "actual_tool": "search_menu",
+      "arguments": {
+        "query": "tés fríos"
+      },
+      "latency_ms": 416,
+      "input_tokens": 898,
+      "output_tokens": 29,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "menu_matcha",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "search_menu",
+      "actual_tool": "search_menu",
+      "arguments": {
+        "query": "bebidas de matcha"
+      },
+      "latency_ms": 365,
+      "input_tokens": 897,
+      "output_tokens": 31,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "menu_extras",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "search_menu",
+      "actual_tool": "search_menu",
+      "arguments": {
+        "query": "latte extras"
+      },
+      "latency_ms": 509,
+      "input_tokens": 898,
+      "output_tokens": 29,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "stock_hot_latte",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "check_availability",
+      "actual_tool": "check_availability",
+      "arguments": {
+        "product_name": "latte caliente",
+        "size": "mediano",
+        "modifiers": []
+      },
+      "latency_ms": 428,
+      "input_tokens": 896,
+      "output_tokens": 59,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "stock_iced_oreo",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "check_availability",
+      "actual_tool": "check_availability",
+      "arguments": {
+        "product_name": "Iced Oreo Latte",
+        "size": "grande",
+        "modifiers": []
+      },
+      "latency_ms": 442,
+      "input_tokens": 900,
+      "output_tokens": 60,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "stock_oat_latte",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "check_availability",
+      "actual_tool": "check_availability",
+      "arguments": {
+        "product_name": "latte",
+        "size": "mediano",
+        "modifiers": [
+          "leche de avena"
+        ]
+      },
+      "latency_ms": 453,
+      "input_tokens": 901,
+      "output_tokens": 64,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "stock_frappe_mocca",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "check_availability",
+      "actual_tool": "check_availability",
+      "arguments": {
+        "product_name": "Frappé Mocca",
+        "size": "grande",
+        "modifiers": []
+      },
+      "latency_ms": 399,
+      "input_tokens": 900,
+      "output_tokens": 60,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "stock_matcha",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "check_availability",
+      "actual_tool": "check_availability",
+      "arguments": {
+        "product_name": "matcha frío",
+        "size": null,
+        "modifiers": []
+      },
+      "latency_ms": 453,
+      "input_tokens": 896,
+      "output_tokens": 56,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "order_hot_latte",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "prepare_order",
+      "actual_tool": "prepare_order",
+      "arguments": {
+        "items": [
+          {
+            "product_name": "latte caliente",
+            "size": "mediano",
+            "quantity": 1,
+            "modifiers": [
+              "leche de avena"
+            ]
+          }
+        ]
+      },
+      "latency_ms": 384,
+      "input_tokens": 903,
+      "output_tokens": 60,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "order_two_oreo_frappes",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "prepare_order",
+      "actual_tool": "prepare_order",
+      "arguments": {
+        "items": [
+          {
+            "product_name": "Frappé Oreo",
+            "size": "grande",
+            "quantity": 2,
+            "modifiers": []
+          }
+        ]
+      },
+      "latency_ms": 411,
+      "input_tokens": 899,
+      "output_tokens": 55,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "order_iced_matcha",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "prepare_order",
+      "actual_tool": "prepare_order",
+      "arguments": {
+        "items": [
+          {
+            "product_name": "Iced Matcha Latte",
+            "size": "grande",
+            "quantity": 1,
+            "modifiers": [
+              "leche de almendras"
+            ]
+          }
+        ]
+      },
+      "latency_ms": 374,
+      "input_tokens": 907,
+      "output_tokens": 63,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "order_hot_chocolate",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "prepare_order",
+      "actual_tool": "prepare_order",
+      "arguments": {
+        "items": [
+          {
+            "product_name": "chocolate caliente",
+            "size": "mediano",
+            "quantity": 1,
+            "modifiers": []
+          }
+        ]
+      },
+      "latency_ms": 392,
+      "input_tokens": 897,
+      "output_tokens": 54,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "order_caramel_macchiato",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "prepare_order",
+      "actual_tool": "prepare_order",
+      "arguments": {
+        "items": [
+          {
+            "product_name": "Iced Caramel Macchiato",
+            "size": "grande",
+            "quantity": 1,
+            "modifiers": []
+          }
+        ]
+      },
+      "latency_ms": 443,
+      "input_tokens": 903,
+      "output_tokens": 57,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "price_hot_latte",
+      "passed": false,
+      "route_correct": false,
+      "arguments_correct": null,
+      "expected_tool": "check_availability",
+      "actual_tool": "search_menu",
+      "arguments": {
+        "query": "latte mediano caliente"
+      },
+      "latency_ms": 348,
+      "input_tokens": 900,
+      "output_tokens": 31,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "price_frappe_matcha",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "check_availability",
+      "actual_tool": "check_availability",
+      "arguments": {
+        "product_name": "Frappé Matcha",
+        "size": "grande",
+        "modifiers": []
+      },
+      "latency_ms": 551,
+      "input_tokens": 901,
+      "output_tokens": 60,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "price_iced_caramel",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "check_availability",
+      "actual_tool": "check_availability",
+      "arguments": {
+        "product_name": "Iced Caramel Macchiato",
+        "size": "grande",
+        "modifiers": []
+      },
+      "latency_ms": 383,
+      "input_tokens": 903,
+      "output_tokens": 61,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "price_hot_chocolate",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": true,
+      "expected_tool": "check_availability",
+      "actual_tool": "check_availability",
+      "arguments": {
+        "product_name": "chocolate caliente",
+        "size": "mediano",
+        "modifiers": []
+      },
+      "latency_ms": 423,
+      "input_tokens": 900,
+      "output_tokens": 59,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "price_manzanilla",
+      "passed": false,
+      "route_correct": false,
+      "arguments_correct": null,
+      "expected_tool": "check_availability",
+      "actual_tool": "search_menu",
+      "arguments": {
+        "query": "té de manzanilla"
+      },
+      "latency_ms": 341,
+      "input_tokens": 901,
+      "output_tokens": 31,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "ambiguous_recommendation",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": null,
+      "expected_tool": null,
+      "actual_tool": null,
+      "arguments": null,
+      "latency_ms": 321,
+      "input_tokens": null,
+      "output_tokens": null,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "ambiguous_size_only",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": null,
+      "expected_tool": null,
+      "actual_tool": null,
+      "arguments": null,
+      "latency_ms": 329,
+      "input_tokens": null,
+      "output_tokens": null,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "ambiguous_price_only",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": null,
+      "expected_tool": null,
+      "actual_tool": null,
+      "arguments": null,
+      "latency_ms": 359,
+      "input_tokens": null,
+      "output_tokens": null,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "ambiguous_reference",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": null,
+      "expected_tool": null,
+      "actual_tool": null,
+      "arguments": null,
+      "latency_ms": 490,
+      "input_tokens": null,
+      "output_tokens": null,
+      "rate_limit_retries": 0
+    },
+    {
+      "id": "ambiguous_add",
+      "passed": true,
+      "route_correct": true,
+      "arguments_correct": null,
+      "expected_tool": null,
+      "actual_tool": null,
+      "arguments": null,
+      "latency_ms": 335,
+      "input_tokens": null,
+      "output_tokens": null,
+      "rate_limit_retries": 0
+    }
+  ]
+}

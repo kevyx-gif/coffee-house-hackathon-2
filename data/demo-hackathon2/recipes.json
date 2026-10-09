@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "environment": "demo_sintetica",
+  "notice": "RECETAS Y CONSUMOS INVENTADOS para probar descuentos. No son recetas, cantidades de preparación ni instrucciones reales del negocio.",
+  "catalog_file": "../catalog.json",
+  "recipes": [
+    {
+      "product_id": "hot_latte",
+      "variant": "mediano",
+      "consumption_per_unit": [
+        {"inventory_item_id": "grano_cafe", "quantity": 18},
+        {"inventory_item_id": "leche_entera", "quantity": 220},
+        {"inventory_item_id": "vaso_12oz", "quantity": 1}
+      ]
+    },
+    {
+      "product_id": "hot_latte",
+      "variant": "grande",
+      "consumption_per_unit": [
+        {"inventory_item_id": "grano_cafe", "quantity": 20},
+        {"inventory_item_id": "leche_entera", "quantity": 300},
+        {"inventory_item_id": "vaso_16oz", "quantity": 1}
+      ]
+    },
+    {
+      "product_id": "iced_oreo_latte",
+      "variant": "grande",
+      "consumption_per_unit": [
+        {"inventory_item_id": "grano_cafe", "quantity": 18},
+        {"inventory_item_id": "leche_entera", "quantity": 150},
+        {"inventory_item_id": "galleta_oreo", "quantity": 30},
+        {"inventory_item_id": "hielo", "quantity": 120},
+        {"inventory_item_id": "vaso_16oz", "quantity": 1}
+      ]
+    },
+    {
+      "product_id": "hot_matcha_latte",
+      "variant": "mediano",
+      "consumption_per_unit": [
+        {"inventory_item_id": "matcha", "quantity": 2},
+        {"inventory_item_id": "leche_entera", "quantity": 230},
+        {"inventory_item_id": "vaso_12oz", "quantity": 1}
+      ]
+    },
+    {
+      "product_id": "iced_matcha_latte",
+      "variant": "grande",
+      "consumption_per_unit": [
+        {"inventory_item_id": "matcha", "quantity": 2},
+        {"inventory_item_id": "leche_entera", "quantity": 160},
+        {"inventory_item_id": "hielo", "quantity": 120},
+        {"inventory_item_id": "vaso_16oz", "quantity": 1}
+      ]
+    },
+    {
+      "product_id": "hot_chai_latte",
+      "variant": "grande",
+      "consumption_per_unit": [
+        {"inventory_item_id": "concentrado_chai", "quantity": 30},
+        {"inventory_item_id": "leche_entera", "quantity": 300},
+        {"inventory_item_id": "vaso_16oz", "quantity": 1}
+      ]
+    },
+    {
+      "product_id": "frappe_oreo",
+      "variant": "grande",
+      "consumption_per_unit": [
+        {"inventory_item_id": "grano_cafe", "quantity": 10},
+        {"inventory_item_id": "leche_entera", "quantity": 150},
+        {"inventory_item_id": "galleta_oreo", "quantity": 30},
+        {"inventory_item_id": "hielo", "quantity": 140},
+        {"inventory_item_id": "base_frappe", "quantity": 25},
+        {"inventory_item_id": "vaso_16oz", "quantity": 1}
+      ]
+    }
+  ],
+  "synthetic_modifiers": [
+    {"modifier_id": "leche_avena", "inventory_item_id": "leche_avena", "quantity_per_beverage": 220},
+    {"modifier_id": "leche_almendras", "inventory_item_id": "leche_almendras", "quantity_per_beverage": 220},
+    {"modifier_id": "espresso_extra", "inventory_item_id": "grano_cafe", "quantity_per_beverage": 18}
+  ]
+}

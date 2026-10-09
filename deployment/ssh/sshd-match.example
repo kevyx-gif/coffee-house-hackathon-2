@@ -1,0 +1,20 @@
+# Append this Match block at the end of the VPS sshd_config, after existing
+# global and Match settings. Do not replace the VPS's complete SSH policy.
+Match User coffee-house-h2-tunnel
+    AuthenticationMethods publickey
+    PasswordAuthentication no
+    KbdInteractiveAuthentication no
+    AllowTcpForwarding remote
+    AllowStreamLocalForwarding no
+    PermitListen 127.0.0.1:19091
+    GatewayPorts no
+    AllowAgentForwarding no
+    X11Forwarding no
+    PermitTTY no
+    PermitTunnel no
+    PermitUserRC no
+    MaxSessions 0
+
+# Example authorized_keys restriction for the dedicated tunnel user's key.
+# Replace the placeholder with that user's actual public key, never a private key.
+# restrict,port-forwarding,permitlisten="127.0.0.1:19091" ssh-ed25519 REPLACE_WITH_PUBLIC_KEY h2-tunnel

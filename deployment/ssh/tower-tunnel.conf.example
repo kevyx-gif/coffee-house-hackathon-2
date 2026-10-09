@@ -1,0 +1,15 @@
+Host coffee-house-h2-vps
+    HostName vps.example.invalid
+    User coffee-house-h2-tunnel
+    Port 22
+    IdentityFile /etc/coffee-house-hackathon2-tunnel/id_ed25519
+    IdentitiesOnly yes
+    BatchMode yes
+    StrictHostKeyChecking yes
+    UserKnownHostsFile /etc/coffee-house-hackathon2-tunnel/known_hosts
+    ServerAliveInterval 30
+    ServerAliveCountMax 3
+    ExitOnForwardFailure yes
+    ForwardAgent no
+    RequestTTY no
+    RemoteForward 127.0.0.1:19091 127.0.0.1:18473

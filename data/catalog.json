@@ -1,0 +1,1498 @@
+{
+  "schema_version": 2,
+  "business_name": "Coffee & Matcha House",
+  "currency": "MXN",
+  "products": [
+    {
+      "id": "iced_cappuccino",
+      "name": "Iced Cappuccino",
+      "category": "Iced Coffee · With Cold Foam",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 8500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_caramel_macchiato",
+      "name": "Iced Caramel Macchiato",
+      "category": "Iced Coffee · With Cold Foam",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_mocca",
+      "name": "Iced Mocca",
+      "category": "Iced Coffee · With Cold Foam",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_mocca_blanco",
+      "name": "Iced Mocca Blanco",
+      "category": "Iced Coffee · With Cold Foam",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_oreo_latte",
+      "name": "Iced Oreo Latte",
+      "category": "Iced Coffee · With Cold Foam",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_americano",
+      "name": "Iced Americano",
+      "category": "Iced Coffee · No Cold Foam",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 7000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_latte",
+      "name": "Iced Latte",
+      "category": "Iced Coffee · No Cold Foam",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 8000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "coffee_tonic",
+      "name": "Coffee Tonic",
+      "category": "Iced Coffee · No Cold Foam",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "orange_coffee",
+      "name": "Orange Coffee",
+      "category": "Iced Coffee · No Cold Foam",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "orange_coffee_tonic",
+      "name": "Orange Coffee Tonic",
+      "category": "Iced Coffee · No Cold Foam",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_dirty_taro",
+      "name": "Iced Dirty Taro",
+      "category": "Iced Coffee · No Cold Foam",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 10500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_dirty_chai",
+      "name": "Iced Dirty Chai",
+      "category": "Iced Coffee · No Cold Foam",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 10500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_chocolate",
+      "name": "Iced Chocolate",
+      "category": "Iced No Coffee",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 8500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_chocolate_blanco",
+      "name": "Iced Chocolate Blanco",
+      "category": "Iced No Coffee",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 8500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_taro_latte",
+      "name": "Iced Taro Latte",
+      "category": "Iced No Coffee",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_chai_latte",
+      "name": "Iced Chai Latte",
+      "category": "Iced No Coffee",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_strawberry_latte",
+      "name": "Iced Strawberry Latte",
+      "category": "Iced No Coffee",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_te_negro_limon",
+      "name": "Iced Té Negro de Limón",
+      "category": "Iced Tea",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 7000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_te_negro_durazno",
+      "name": "Iced Té Negro de Durazno",
+      "category": "Iced Tea",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 7000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_te_negro_frutos_rojos",
+      "name": "Iced Té Negro de Frutos Rojos",
+      "category": "Iced Tea",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 7000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_te_verde_limon",
+      "name": "Iced Té Verde de Limón",
+      "category": "Iced Tea",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 7000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_te_verde_fresa",
+      "name": "Iced Té Verde de Fresa",
+      "category": "Iced Tea",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 7000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_te_verde_mango",
+      "name": "Iced Té Verde de Mango",
+      "category": "Iced Tea",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 7000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "frappe_cappuccino",
+      "name": "Frappé Cappuccino",
+      "category": "Frappes · Coffee",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "frappe_mocca",
+      "name": "Frappé Mocca",
+      "category": "Frappes · Coffee",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "frappe_caramel_macchiato",
+      "name": "Frappé Caramel Macchiato",
+      "category": "Frappes · Coffee",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "frappe_oreo",
+      "name": "Frappé Oreo",
+      "category": "Frappes · Coffee",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "frappe_chocolate",
+      "name": "Frappé Chocolate",
+      "category": "Frappes · No Coffee",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "frappe_chocolate_blanco",
+      "name": "Frappé Chocolate Blanco",
+      "category": "Frappes · No Coffee",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "frappe_choco_avellana",
+      "name": "Frappé Choco Avellana",
+      "category": "Frappes · No Coffee",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "frappe_taro",
+      "name": "Frappé Taro",
+      "category": "Frappes · No Coffee",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "frappe_chai",
+      "name": "Frappé Chai",
+      "category": "Frappes · No Coffee",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "malteada_chocolate",
+      "name": "Malteada Chocolate",
+      "category": "Malteadas",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "malteada_fresa",
+      "name": "Malteada Fresa",
+      "category": "Malteadas",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "malteada_vainilla",
+      "name": "Malteada Vainilla",
+      "category": "Malteadas",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "smoothie_fresa",
+      "name": "Smoothie Fresa",
+      "category": "Smoothies · Con fruta natural",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "smoothie_brisa_tropical",
+      "name": "Smoothie Brisa Tropical",
+      "category": "Smoothies · Con fruta natural",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "smoothie_berries",
+      "name": "Smoothie Berries",
+      "category": "Smoothies · Con fruta natural",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "espresso",
+      "name": "Espresso",
+      "category": "Espresso Bar",
+      "extra_group": null,
+      "variants": [
+        {
+          "size": "presentacion_unica",
+          "price_cents": 5000,
+          "volume_ml": 60,
+          "volume_oz": null,
+          "price_status": "documentado",
+          "size_status": "provisional",
+          "size_notice": "Tamaño provisional para la demo; pendiente de confirmación del negocio",
+          "portion_confirmed": false
+        }
+      ]
+    },
+    {
+      "id": "espresso_macchiato",
+      "name": "Espresso Macchiato",
+      "category": "Espresso Bar",
+      "extra_group": null,
+      "variants": [
+        {
+          "size": "presentacion_unica",
+          "price_cents": 5500,
+          "volume_ml": 90,
+          "volume_oz": null,
+          "price_status": "documentado",
+          "size_status": "provisional",
+          "size_notice": "Tamaño provisional para la demo; pendiente de confirmación del negocio",
+          "portion_confirmed": false
+        }
+      ]
+    },
+    {
+      "id": "espresso_cortado",
+      "name": "Espresso Cortado",
+      "category": "Espresso Bar",
+      "extra_group": null,
+      "variants": [
+        {
+          "size": "presentacion_unica",
+          "price_cents": 5500,
+          "volume_ml": 120,
+          "volume_oz": null,
+          "price_status": "documentado",
+          "size_status": "provisional",
+          "size_notice": "Tamaño provisional para la demo; pendiente de confirmación del negocio",
+          "portion_confirmed": false
+        }
+      ]
+    },
+    {
+      "id": "espresso_affogato",
+      "name": "Espresso Affogato",
+      "category": "Espresso Bar",
+      "extra_group": null,
+      "variants": [
+        {
+          "size": "presentacion_unica",
+          "price_cents": 8500,
+          "volume_ml": 180,
+          "volume_oz": null,
+          "price_status": "documentado",
+          "size_status": "provisional",
+          "size_notice": "Tamaño provisional para la demo; pendiente de confirmación del negocio",
+          "portion_confirmed": false
+        }
+      ]
+    },
+    {
+      "id": "hot_americano",
+      "name": "Americano",
+      "category": "Coffee Bar",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 6000,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        },
+        {
+          "size": "grande",
+          "price_cents": 7000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "long_black",
+      "name": "Long Black",
+      "category": "Coffee Bar",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 6000,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "hot_latte",
+      "name": "Latte",
+      "category": "Coffee Bar",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 7000,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        },
+        {
+          "size": "grande",
+          "price_cents": 8000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "hot_cappuccino",
+      "name": "Cappuccino",
+      "category": "Coffee Bar",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 7000,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        },
+        {
+          "size": "grande",
+          "price_cents": 8000,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "flat_white",
+      "name": "Flat White",
+      "category": "Coffee Bar",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 8000,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "hot_matcha_latte",
+      "name": "Hot Matcha Latte",
+      "category": "Matcha Bar",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 8500,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        },
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "hot_dirty_matcha",
+      "name": "Hot Dirty Matcha",
+      "category": "Matcha Bar",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 9500,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        },
+        {
+          "size": "grande",
+          "price_cents": 10500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_matcha_latte",
+      "name": "Iced Matcha Latte",
+      "category": "Matcha Bar",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_strawberry_matcha",
+      "name": "Iced Strawberry Matcha",
+      "category": "Matcha Bar",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 10500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_mango_matcha",
+      "name": "Iced Mango Matcha",
+      "category": "Matcha Bar",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 10500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_berries_matcha",
+      "name": "Iced Berries Matcha",
+      "category": "Matcha Bar",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 10500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "iced_dirty_matcha",
+      "name": "Iced Dirty Matcha",
+      "category": "Matcha Bar",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 10500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "frappe_matcha",
+      "name": "Frappé Matcha",
+      "category": "Matcha Bar",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "hot_mocca",
+      "name": "Mocca",
+      "category": "Nuestras Creaciones",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 8500,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        },
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "hot_mocca_blanco",
+      "name": "Mocca Blanco",
+      "category": "Nuestras Creaciones",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 8500,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        },
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "hot_caramel_macchiato",
+      "name": "Caramel Macchiato",
+      "category": "Nuestras Creaciones",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 8500,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        },
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "hot_oreo_latte",
+      "name": "Oreo Latte",
+      "category": "Nuestras Creaciones",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 8500,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        },
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "hot_dirty_taro",
+      "name": "Dirty Taro",
+      "category": "Nuestras Creaciones",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 9500,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        },
+        {
+          "size": "grande",
+          "price_cents": 10500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "hot_dirty_chai",
+      "name": "Dirty Chai",
+      "category": "Nuestras Creaciones",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 9500,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        },
+        {
+          "size": "grande",
+          "price_cents": 10500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "hot_chocolate",
+      "name": "Chocolate",
+      "category": "Lattes",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 7500,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        },
+        {
+          "size": "grande",
+          "price_cents": 8500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "hot_chocolate_blanco",
+      "name": "Chocolate Blanco",
+      "category": "Lattes",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 7500,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        },
+        {
+          "size": "grande",
+          "price_cents": 8500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "hot_taro_latte",
+      "name": "Taro Latte",
+      "category": "Lattes",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 8500,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        },
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "hot_chai_latte",
+      "name": "Chai Latte",
+      "category": "Lattes",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 8500,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        },
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "documentado",
+          "size_status": "documentado",
+          "size_notice": null,
+          "portion_confirmed": true
+        }
+      ]
+    },
+    {
+      "id": "te_manzanilla",
+      "name": "Té Manzanilla",
+      "category": "Té",
+      "extra_group": null,
+      "variants": [
+        {
+          "size": "presentacion_unica",
+          "price_cents": 3000,
+          "volume_ml": 360,
+          "volume_oz": null,
+          "price_status": "documentado",
+          "size_status": "provisional",
+          "size_notice": "Tamaño provisional para la demo; pendiente de confirmación del negocio",
+          "portion_confirmed": false
+        }
+      ]
+    },
+    {
+      "id": "te_limon",
+      "name": "Té Limón",
+      "category": "Té",
+      "extra_group": null,
+      "variants": [
+        {
+          "size": "presentacion_unica",
+          "price_cents": 3000,
+          "volume_ml": 360,
+          "volume_oz": null,
+          "price_status": "documentado",
+          "size_status": "provisional",
+          "size_notice": "Tamaño provisional para la demo; pendiente de confirmación del negocio",
+          "portion_confirmed": false
+        }
+      ]
+    },
+    {
+      "id": "te_hierbabuena",
+      "name": "Té Hierbabuena",
+      "category": "Té",
+      "extra_group": null,
+      "variants": [
+        {
+          "size": "presentacion_unica",
+          "price_cents": 3000,
+          "volume_ml": 360,
+          "volume_oz": null,
+          "price_status": "documentado",
+          "size_status": "provisional",
+          "size_notice": "Tamaño provisional para la demo; pendiente de confirmación del negocio",
+          "portion_confirmed": false
+        }
+      ]
+    },
+    {
+      "id": "te_verde",
+      "name": "Té Verde",
+      "category": "Té",
+      "extra_group": null,
+      "variants": [
+        {
+          "size": "presentacion_unica",
+          "price_cents": 3000,
+          "volume_ml": 360,
+          "volume_oz": null,
+          "price_status": "documentado",
+          "size_status": "provisional",
+          "size_notice": "Tamaño provisional para la demo; pendiente de confirmación del negocio",
+          "portion_confirmed": false
+        }
+      ]
+    },
+    {
+      "id": "hot_pumpkin_spice_latte",
+      "name": "Pumpkin Spice Latte caliente",
+      "category": "Temporada · Pumpkin Spice",
+      "extra_group": "calientes",
+      "variants": [
+        {
+          "size": "mediano",
+          "price_cents": 8500,
+          "volume_ml": 360,
+          "volume_oz": 12,
+          "price_status": "provisional",
+          "size_status": "provisional",
+          "size_notice": "Tamaño provisional para la demo; pendiente de confirmación del negocio",
+          "portion_confirmed": false
+        },
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "provisional",
+          "size_status": "provisional",
+          "size_notice": "Tamaño provisional para la demo; pendiente de confirmación del negocio",
+          "portion_confirmed": false
+        }
+      ]
+    },
+    {
+      "id": "iced_pumpkin_spice_latte",
+      "name": "Pumpkin Spice Latte frío",
+      "category": "Temporada · Pumpkin Spice",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "provisional",
+          "size_status": "provisional",
+          "size_notice": "Tamaño provisional para la demo; pendiente de confirmación del negocio",
+          "portion_confirmed": false
+        }
+      ]
+    },
+    {
+      "id": "frappe_pumpkin_spice_latte",
+      "name": "Pumpkin Spice Latte frappé",
+      "category": "Temporada · Pumpkin Spice",
+      "extra_group": "frias",
+      "variants": [
+        {
+          "size": "grande",
+          "price_cents": 9500,
+          "volume_ml": 480,
+          "volume_oz": 16,
+          "price_status": "provisional",
+          "size_status": "provisional",
+          "size_notice": "Tamaño provisional para la demo; pendiente de confirmación del negocio",
+          "portion_confirmed": false
+        }
+      ]
+    }
+  ],
+  "extras": [
+    {
+      "id": "leche_almendras",
+      "name": "Leche de Almendras",
+      "price_cents": 1500,
+      "groups": [
+        "calientes",
+        "frias"
+      ],
+      "max_quantity": 1,
+      "exclusive_group": "leche_vegetal"
+    },
+    {
+      "id": "leche_avena",
+      "name": "Leche de Avena",
+      "price_cents": 1500,
+      "groups": [
+        "calientes",
+        "frias"
+      ],
+      "max_quantity": 1,
+      "exclusive_group": "leche_vegetal"
+    },
+    {
+      "id": "espresso_extra",
+      "name": "Espresso extra",
+      "price_cents": 1500,
+      "groups": [
+        "calientes",
+        "frias"
+      ],
+      "max_quantity": 1,
+      "exclusive_group": null
+    }
+  ]
+}

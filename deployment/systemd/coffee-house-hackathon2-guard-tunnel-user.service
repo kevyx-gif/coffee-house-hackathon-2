@@ -1,0 +1,22 @@
+[Unit]
+Description=Coffee House Hackathon 2 loopback-only SSH reverse tunnel (user unit)
+Requires=coffee-house-hackathon2-guard.service
+After=network-online.target coffee-house-hackathon2-guard.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ssh -nNT -F %h/.config/coffee-house-hackathon2-tunnel/ssh_config coffee-house-h2-vps
+Restart=always
+RestartSec=10
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+TasksMax=16
+LimitNOFILE=256
+
+[Install]
+WantedBy=default.target
