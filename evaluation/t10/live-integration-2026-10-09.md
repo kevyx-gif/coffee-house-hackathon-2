@@ -29,6 +29,10 @@ Resultado: **5/5 casos pasaron**. La mediana fue 14.122 segundos y el rango, 5.8
 
 ## Qué falta
 
-Una persona debe probar desde un teléfono habilitado como destinatario de prueba: enviar una consulta sencilla y verificar la respuesta. Si esa prueba pasa, continuar con un pedido de prueba, su confirmación por el cliente, asignación al personal, aceptación y aviso al cliente. El descuento de inventario y las notificaciones deben comprobarse con los datos de demostración. No usar clientes ni datos reales.
+Renovar primero el token de mensajería y repetir una consulta desde un teléfono habilitado como destinatario de prueba. Si llega la respuesta, continuar con un pedido de prueba, su confirmación por el cliente, asignación al personal, aceptación y aviso al cliente. El descuento de inventario y las notificaciones deben comprobarse con los datos de demostración. No usar clientes ni datos reales.
 
-OCR está apagado en el VPS. Esta prueba no cubre reconocimiento de fotos ni acredita el procesamiento de mensajes entrantes/salientes reales. No es una validación de producción.
+OCR está apagado en el VPS. La prueba sintética no cubre reconocimiento de fotos ni acredita el ciclo real de mensajes entrantes y salientes. No es una validación de producción.
+
+## Intento manual desde el teléfono
+
+El 9 de octubre se conectó un Android autorizado y se abrió directamente el chat del número de prueba de Meta. El webhook registró y procesó el evento entrante; el trabajo del asistente terminó. La respuesta no llegó al teléfono porque Meta rechazó el envío con HTTP 401. Una lectura de solo consulta de la credencial privada devolvió error 190/subcódigo 463. No se creó ningún pedido ni se afectó inventario. La credencial actual debe renovarse con permiso de mensajería y actualizarse en el VPS antes de repetir. No se incluye una captura de esta prueba fallida, pues la pantalla contenía elementos personales que no son evidencia del proyecto.

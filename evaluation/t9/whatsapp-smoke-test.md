@@ -1,11 +1,11 @@
 # Guion de prueba real de WhatsApp — T9
 
-Este guion queda preparado para cerrar la validación externa cuando la cuenta de Meta vuelva a autorizar la Cloud API. **No actives la entrega ni pruebes con clientes.** Usa solamente el número de prueba de Meta, destinatarios que el administrador controla y la base sintética de Hackathon 2.
+Este guion permite cerrar la validación externa después de renovar el token. La entrega está habilitada solo para la demo; **no pruebes con clientes**. Usa únicamente el número de prueba de Meta, destinatarios controlados por el administrador y la base sintética de Hackathon 2.
 
 ## Antes de empezar
 
-- [ ] Renovar `WHATSAPP_ACCESS_TOKEN` en el archivo privado del servicio. No copiarlo al repositorio, una celda, una captura ni el chat.
-- [ ] Confirmar con una consulta de solo lectura que `PHONE_NUMBER_ID` y el token coinciden. Esta consulta no envía mensajes.
+- [ ] Renovar `WHATSAPP_ACCESS_TOKEN` con permiso `whatsapp_business_messaging` y reemplazarlo en el archivo privado del servicio. No copiarlo al repositorio, una celda, una captura ni el chat.
+- [ ] Confirmar con una consulta de solo lectura que `PHONE_NUMBER_ID` y el token coinciden. Esta consulta no envía mensajes. Meta documenta el requisito en su [colección oficial de mensajes](https://www.postman.com/meta/whatsapp-business-platform/folder/13382743-ba8d099d-007e-4b52-b9f2-3cf3c60e4fbc).
 - [ ] Confirmar que `WHATSAPP_VERIFY_TOKEN` coincide exactamente con el configurado en Meta y que `META_APP_SECRET` valida la firma.
 - [ ] Usar HTTPS hacia el webhook `/webhook`; el proceso FastAPI debe seguir escuchando solo en `127.0.0.1:18795`.
 - [ ] Mantener `H2_ALLOW_EXTERNAL_TEXT=true` y `H2_ENABLE_META_DELIVERY=true` únicamente mientras se ejecuta esta prueba con texto sintético y números permitidos de prueba. Apagarlos al terminar.
@@ -33,6 +33,8 @@ Este guion queda preparado para cerrar la validación externa cuando la cuenta d
 - [ ] Registrar hora, versión desplegada, resultados esperados/observados y errores, sin incluir tokens, números completos ni capturas con información personal.
 - [ ] Apagar los dos permisos externos después de la prueba. Confirmar que H1 sigue saludable y que no quedan datos de prueba que no deban conservarse.
 
-## Estado observado antes de la prueba
+## Estado de la primera prueba manual
 
-El 9 de octubre de 2026, la lectura de `PHONE_NUMBER_ID` en Graph API v23.0 devolvió HTTP 401, código 190/subcódigo 463. No se enviaron mensajes. El flujo sintético local pasó; esta prueba real y los dispositivos permanecen pendientes hasta renovar la autorización.
+El 9 de octubre de 2026 se envió desde Android una consulta sintética al número de prueba de Meta. El webhook recibió el evento y el trabajo del asistente terminó; la bandeja de salida quedó fallida con HTTP 401. La comprobación privada de la credencial devolvió el error Graph API 190/subcódigo 463, consistente con un token vencido o revocado. No llegó una respuesta al teléfono, no se creó ni aceptó un pedido y esta prueba no se considera aprobada. No se guardó una captura porque la interfaz incluía elementos personales ajenos a la prueba.
+
+Renovar `WHATSAPP_ACCESS_TOKEN` con permiso de mensajería, guardarlo en el entorno privado del VPS y reiniciar H2 antes de repetir la consulta. No copiar el token al repositorio ni enviarlo por chat. Cuando la consulta simple responda, completar el flujo controlado de pedido descrito arriba.

@@ -16,16 +16,17 @@ Prepara `/etc/coffee-house-hackathon2/hackathon2.env` con permisos `600`; toma c
 
 El servicio H2 usa `QWEN_GUARD_URL=http://127.0.0.1:19091`. El túnel se inicia desde la torre hacia el VPS y permite solo el tramo `127.0.0.1:18473` a `127.0.0.1:19091`. No abras la torre en el router ni en el cortafuegos público.
 
-La cuenta de prueba de WhatsApp Business está suscrita a la app Mozart y al campo `messages`. Meta usa la callback H2 indicada arriba. Nunca apuntes la app a la página H1. Aunque la suscripción se verificó desde Meta y el procesamiento sintético pasó, todavía falta una prueba manual desde un teléfono permitido por la cuenta de prueba para confirmar entrada y respuesta reales.
+La cuenta de prueba de WhatsApp Business está suscrita a la app Mozart y al campo `messages`. Meta usa la callback H2 indicada arriba. Nunca apuntes la app a la página H1. En el primer intento desde un teléfono permitido, el evento entró y H2 lo procesó, pero Meta rechazó la respuesta saliente con HTTP 401; la credencial verificada devolvió error 190/463. Renueva un token que incluya permiso de mensajería y vuelve a probar antes de dar por terminada la validación real.
 
 ## Estado y siguiente paso
 
 1. Confirma que el servicio H2, la guardia y el túnel están activos antes de probar; consulta el registro de despliegue.
-2. Desde un teléfono habilitado como destinatario de prueba en Meta, envía primero una consulta sencilla y comprueba que llega la respuesta. Esta prueba humana sigue pendiente.
-3. Después prueba un borrador de pedido, cambios antes de confirmar y la aceptación del personal. Confirma que el inventario solo se descuenta al aceptar; todavía no se ha probado este recorrido por WhatsApp real.
-4. El OCR está apagado en el despliegue actual; las fotos de tickets solo se evaluaron con datos sintéticos y no se deben enviar a esta demo hasta activar y comprobar esa función.
-5. Usa solo números y datos de prueba. No uses información de clientes reales.
-6. Antes de migraciones, respalda solo los datos H2. No abras, copies ni modifiques la base de Hackathon 1.
+2. Reemplaza el token vencido en el entorno privado del VPS por uno nuevo con permiso de mensajería. Nunca lo pongas en el repositorio ni en el chat.
+3. Desde un teléfono habilitado como destinatario de prueba en Meta, envía primero una consulta sencilla y comprueba que llega la respuesta.
+4. Después prueba un borrador de pedido, cambios antes de confirmar y la aceptación del personal. Confirma que el inventario solo se descuenta al aceptar.
+5. El OCR está apagado en el despliegue actual; las fotos de tickets solo se evaluaron con datos sintéticos y no se deben enviar a esta demo hasta activar y comprobar esa función.
+6. Usa solo números y datos de prueba. No uses información de clientes reales.
+7. Antes de migraciones, respalda solo los datos H2. No abras, copies ni modifiques la base de Hackathon 1.
 
 ## Retirada
 
