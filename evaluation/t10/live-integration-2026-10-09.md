@@ -54,3 +54,13 @@ La respuesta automática a la consulta anterior sobre el menú también quedó r
 ![Captura redactada de la consulta sobre los lattes y la respuesta del asistente; el contacto está oculto.](evidence/whatsapp-menu-query.png)
 
 Para cerrar el ciclo de aceptación y existencias, hace falta iniciar un pedido de prueba nuevo y que el personal autorizado lo acepte antes de su vencimiento. Entonces se debe comprobar que se registre una sola venta y un solo movimiento de inventario.
+
+## Validación móvil de acceso y consulta de existencias
+
+El 9 de octubre de 2026, el usuario confirmó que ambos números de administración pudieron iniciar sesión. Desde un Android conectado mediante scrcpy, una sesión autorizada envió `INVENTARIO` al número de prueba de WhatsApp. H2 respondió con existencias de demostración e indicó expresamente que no representan inventario real. La consulta fue de solo lectura: no creó pedidos ni modificó existencias.
+
+La captura se recortó para excluir el encabezado del chat, los números telefónicos y mensajes anteriores de acceso. Sirve como evidencia del comando y de la respuesta móvil; no acredita por separado las dos sesiones de administrador ni el ciclo de aceptación de una venta.
+
+![Consulta móvil de inventario de demostración mediante la sesión autorizada de personal.](evidence/whatsapp-inventory-mobile.png)
+
+Queda pendiente cerrar en vivo el ciclo de venta: confirmar un pedido, aceptarlo con personal autorizado y comprobar una sola venta, un solo descuento y la notificación al cliente. Hasta entonces, la aceptación, el descuento y los avisos de estado se consideran cubiertos por las pruebas sintéticas documentadas, no por una venta real en WhatsApp.
