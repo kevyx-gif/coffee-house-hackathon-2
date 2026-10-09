@@ -56,11 +56,22 @@ class WhatsAppSettings:
 
 
 class MetaRejected(RuntimeError):
-    """Meta returned a definitive non-2xx response; only the status is retained."""
+    """Meta returned a definitive non-2xx response; retain only numeric diagnostics."""
 
-    def __init__(self, status_code: int):
+    def __init__(self, status_code: int, *, graph_code: int | None = None, graph_subcode: int | None = None):
         super().__init__(f"Meta rechazó el mensaje (HTTP {status_code}).")
         self.status_code = status_code
+        self.graph_code = graph_code
+        self.graph_subcode = graph_subcode
+
+    @property
+    def safe_error_code(self) -> str:
+        result = f"meta_http_{self.status_code}"
+        if self.graph_code is not None:
+            result += f"_graph_{self.graph_code}"
+        if self.graph_subcode is not None:
+            result += f"_sub_{self.graph_subcode}"
+        return result
 
 
 class DeliveryUncertain(RuntimeError):
@@ -307,7 +318,21 @@ class WhatsAppCloudClient:
         if response.status_code >= 500:
             raise DeliveryUncertain("Meta no confirmó si recibió el mensaje.")
         if not 200 <= response.status_code < 300:
-            raise MetaRejected(response.status_code)
+            graph_code = graph_subcode = None
+            try:
+                error = response.json().get("error", {})
+                if isinstance(error, dict):
+                    candidate = error.get("code")
+                    if type(candidate) is int and 0 <= candidate <= 2_147_483_647:
+                        graph_code = candidate
+                    candidate = error.get("error_subcode")
+                    if type(candidate) is int and 0 <= candidate <= 2_147_483_647:
+                        graph_subcode = candidate
+            except (ValueError, TypeError, AttributeError):
+                pass
+            raise MetaRejected(
+                response.status_code, graph_code=graph_code, graph_subcode=graph_subcode,
+            )
         try:
             payload = response.json()
             messages = payload.get("messages") if isinstance(payload, dict) else None
@@ -376,7 +401,7 @@ class WhatsAppCloudClient:
             store.finish_outbox(item["outbox_id"], "uncertain", error_code="meta_uncertain")
             return "uncertain"
         except MetaRejected as exc:
-            store.finish_outbox(item["outbox_id"], "failed", error_code=f"meta_http_{exc.status_code}")
+            store.finish_outbox(item["outbox_id"], "failed", error_code=exc.safe_error_code)
             return "failed"
         store.finish_outbox(item["outbox_id"], "sent", provider_message_id=provider_id)
         return "sent"

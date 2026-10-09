@@ -219,7 +219,7 @@ def test_meta_rejection_and_uncertain_timeout_are_not_retried(tmp_path):
     uncertain_id = store.enqueue_message("uncertain", "+" + CUSTOMER, "Hola", now="2026-10-09T12:00:01+00:00")
 
     def rejection(request):
-        return httpx.Response(400, json={"error": {"message": ACCESS_TOKEN}})
+        return httpx.Response(400, json={"error": {"message": ACCESS_TOKEN, "code": 900001, "error_subcode": 900002}})
 
     async def run(handler, *, now=NOW):
         async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
@@ -235,7 +235,7 @@ def test_meta_rejection_and_uncertain_timeout_are_not_retried(tmp_path):
     with store._connect() as connection:
         rows = connection.execute("SELECT outbox_id,status,error_code FROM outbox ORDER BY created_at,outbox_id").fetchall()
     by_id = {row["outbox_id"]: (row["status"], row["error_code"]) for row in rows}
-    assert by_id[rejected_id] == ("failed", "meta_http_400")
+    assert by_id[rejected_id] == ("failed", "meta_http_400_graph_900001_sub_900002")
     assert by_id[uncertain_id] == ("uncertain", "meta_uncertain")
     assert "sensitive request details" not in repr(rows)
     assert ACCESS_TOKEN not in repr(rows)
