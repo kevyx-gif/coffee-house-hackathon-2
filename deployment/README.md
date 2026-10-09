@@ -16,13 +16,13 @@ Prepara `/etc/coffee-house-hackathon2/hackathon2.env` con permisos `600`; toma c
 
 El servicio H2 usa `QWEN_GUARD_URL=http://127.0.0.1:19091`. El túnel se inicia desde la torre hacia el VPS y permite solo el tramo `127.0.0.1:18473` a `127.0.0.1:19091`. No abras la torre en el router ni en el cortafuegos público.
 
-La cuenta de prueba de WhatsApp Business está suscrita a la app Mozart y al campo `messages`. Meta usa la callback H2 indicada arriba. Nunca apuntes la app a la página H1. El primer intento salió con un token vencido (HTTP 401, error 190/463). Después se instaló y verificó un token nuevo con permiso `whatsapp_business_messaging`. Los primeros envíos recibieron HTTP 400/código `131030`, aunque el teléfono ya aparecía en «A». El webhook entregaba el identificador mexicano histórico `521...`, mientras la lista de Meta muestra `52...`. Un envío directo al formato mostrado por Meta fue aceptado y su webhook confirmó `delivered` y `read`. El código de H2 ya normaliza ese identificador al recibirlo; falta desplegar el cambio y validar una conversación completa.
+La cuenta de prueba de WhatsApp Business está suscrita a la app Mozart y al campo `messages`. Meta usa la callback H2 indicada arriba. Nunca apuntes la app a la página H1. El primer intento salió con un token vencido (HTTP 401, error 190/463). Después se instaló y verificó un token nuevo con permiso `whatsapp_business_messaging`. Los primeros envíos recibieron HTTP 400/código `131030`, aunque el teléfono ya aparecía en «A». El webhook entregaba el identificador mexicano histórico `521...`, mientras la lista de Meta muestra `52...`. Un envío directo al formato mostrado por Meta fue aceptado y su webhook confirmó `delivered` y `read`. El código de H2 ya normaliza ese identificador al recibirlo y está desplegado. Falta validar una conversación automática completa.
 
 ## Estado y siguiente paso
 
 1. Confirma que el servicio H2, la guardia y el túnel están activos antes de probar; consulta el registro de despliegue.
 2. En **WhatsApp > Configuración de la API**, comprueba que el teléfono desde el que se escribe aparece como destinatario permitido en «A» para el mismo número de prueba que usa H2. No hace falta añadirlo como línea de negocio, volver a generar el token ni cambiar el webhook.
-3. Tras desplegar la normalización de números mexicanos, desde ese teléfono envía una consulta sencilla y comprueba que llega la respuesta automática.
+3. Desde ese teléfono envía una consulta sencilla y comprueba que llega la respuesta automática; el webhook ahora normaliza el identificador mexicano que recibe.
 4. Después prueba un borrador de pedido, cambios antes de confirmar y la aceptación del personal. Confirma que el inventario solo se descuenta al aceptar.
 5. El OCR está apagado en el despliegue actual; las fotos de tickets solo se evaluaron con datos sintéticos y no se deben enviar a esta demo hasta activar y comprobar esa función.
 6. Usa solo números y datos de prueba. No uses información de clientes reales.
