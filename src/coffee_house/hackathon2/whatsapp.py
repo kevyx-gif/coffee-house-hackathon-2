@@ -97,6 +97,11 @@ def _timestamp(value: Any) -> str:
 def _sender(value: Any) -> str:
     if not isinstance(value, str) or not _PHONE.fullmatch(value):
         raise ValueError("El evento no contiene un remitente válido.")
+    # Meta webhooks may return Mexican mobile wa_id values in the legacy 521...
+    # form. Keep one current E.164 representation internally so it matches the
+    # +52 number configured by staff and the recipient accepted by the test API.
+    if value.startswith("521") and len(value) == 13:
+        value = "52" + value[3:]
     return f"+{value}"
 
 

@@ -87,12 +87,25 @@ def test_valid_message_is_durable_and_duplicate_delivery_is_idempotent(tmp_path)
     assert again.status_code == 200 and again.json() == {"received": 1, "queued": 0, "duplicates": 1, "deferred": 0}
     event = store.claim_assistant_job("test-worker", now=utc_now())
     assert event["event_id"] == "message:wamid.HBgLTEST001"
-    assert event["payload"]["sender"] == "+" + CUSTOMER
+    assert event["payload"]["sender"] == "+525550000003"
     assert event["payload"]["text"] == "Hola, ¿qué lattes tienen?"
     assert store.claim_webhook_event(now=NOW) is None
     assert store.complete_assistant_job(event["job_id"], "Las opciones de latte son sintéticas.", now=NOW)
     assert store.claim_webhook_event(now=NOW) is None
     assert store.recover_webhook_events() == 0
+
+
+def test_webhook_normalizes_mexico_legacy_mobile_wa_id_and_keeps_other_countries():
+    mexico = {
+        "id": "wamid.HBgLMX001", "from": "5215550000003", "timestamp": "1791547200",
+        "type": "text", "text": {"body": "Hola"},
+    }
+    other_country = {
+        "id": "wamid.HBgLUS001", "from": "14155550123", "timestamp": "1791547200",
+        "type": "text", "text": {"body": "Hi"},
+    }
+    events = normalize_webhook(envelope(messages=[mexico, other_country]), PHONE_ID)
+    assert [event[1]["sender"] for event in events] == ["+525550000003", "+14155550123"]
 
 
 def test_invalid_signature_phone_number_and_malformed_json_are_rejected(tmp_path):
@@ -118,7 +131,7 @@ def test_invalid_signature_phone_number_and_malformed_json_are_rejected(tmp_path
 def test_webhook_worker_completes_synthetic_message_and_keeps_delivery_local(tmp_path):
     class Handler:
         async def handle(self, phone, text, *, event_id=None):
-            assert phone == "+" + CUSTOMER
+            assert phone == "+525550000003"
             assert text == "Hola, ¿qué lattes tienen?"
             return ConversationReply("Respuesta sintética desde catálogo.", "answered", "test")
 
@@ -158,7 +171,7 @@ def test_payload_limit_and_media_allowlist(tmp_path):
     event_id, normalized = normalize_webhook(envelope(messages=[image]), PHONE_ID)[0]
     assert event_id == "message:wamid.HBgLIMG001"
     assert normalized == {
-        "kind": "message", "message_id": "wamid.HBgLIMG001", "sender": "+" + CUSTOMER,
+        "kind": "message", "message_id": "wamid.HBgLIMG001", "sender": "+525550000003",
         "timestamp": "1791547200", "type": "image", "media_id": "media_test_01"
     }
     image["image"]["id"] = "bad id with spaces"

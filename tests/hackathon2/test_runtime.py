@@ -281,7 +281,7 @@ def test_signed_webhook_runs_through_queue_guard_model_catalog_and_outbox(tmp_pa
             time.sleep(0.01)
         assert len(cloud.deliveries) == 1
         recipient, message, provider_id = cloud.deliveries[0]
-        assert recipient == "+5215550000099"
+        assert recipient == "+525550000099"
         assert "Latte" in message and "MXN" in message
         assert provider_id == "wamid.SYNTHETIC0001"
         assert model.calls == ["¿Qué tipos de latte tienen?"]
