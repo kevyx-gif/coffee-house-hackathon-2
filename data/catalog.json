@@ -1475,6 +1475,7 @@
     {
       "id": "leche_avena",
       "name": "Leche de Avena",
+      "order_label": "sustitución por Leche de Avena",
       "price_cents": 1500,
       "groups": [
         "calientes",

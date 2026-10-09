@@ -60,13 +60,13 @@ def accept(store, order_id, *, actor=CASHIER):
 def test_versioned_schema_and_demo_seed_does_not_reset_on_restart(tmp_path):
     store, seeded = make_store(tmp_path)
     assert seeded is True
-    assert store.schema_version == 4
+    assert store.schema_version == 5
     assert store.inventory_snapshot()["grano_cafe"]["on_hand"] == 900
     with sqlite3.connect(tmp_path / "h2.sqlite3") as connection:
         connection.execute("UPDATE inventory_items SET on_hand=777 WHERE item_id='grano_cafe'")
         connection.commit()
         assert connection.execute("PRAGMA journal_mode").fetchone()[0].lower() == "delete"
-        assert connection.execute("PRAGMA user_version").fetchone()[0] == 4
+        assert connection.execute("PRAGMA user_version").fetchone()[0] == 5
     restarted = H2Store(tmp_path / "h2.sqlite3")
     assert restarted.seed_demo_directory(FIXTURE_DIR) is False
     assert restarted.inventory_snapshot()["grano_cafe"]["on_hand"] == 777
@@ -129,7 +129,7 @@ def test_h2_migration_never_opens_or_changes_h1_file(tmp_path):
         connection.execute("INSERT INTO h1_sentinel VALUES('unchanged')")
     before = h1_path.read_bytes()
     store = H2Store(tmp_path / "h2.sqlite3")
-    assert store.schema_version == 4
+    assert store.schema_version == 5
     assert h1_path.read_bytes() == before
     with sqlite3.connect(h1_path) as connection:
         assert connection.execute("SELECT value FROM h1_sentinel").fetchone()[0] == "unchanged"
@@ -147,10 +147,11 @@ def test_v1_to_v2_migration_preserves_orders_and_adds_routing_history(tmp_path):
         connection.execute("DROP INDEX idx_assistant_jobs_queue")
         connection.execute("DROP TABLE assistant_jobs")
         connection.execute("DROP TABLE catalog_price_overrides")
+        connection.execute("DROP TABLE modifier_substitutions")
         connection.execute("ALTER TABLE orders DROP COLUMN accepted_by_phone")
         connection.execute("PRAGMA user_version=1")
     migrated = H2Store(store.path)
-    assert migrated.schema_version == 4
+    assert migrated.schema_version == 5
     assert migrated.inventory_snapshot() == stock_before
     assert migrated.order_for_customer("H2-MIGRATE", CUSTOMER)["status"] == "pending_staff"
     with sqlite3.connect(store.path) as connection:
@@ -164,11 +165,32 @@ def test_v3_to_v4_adds_price_overrides_without_resetting_inventory(tmp_path):
     stock_before = store.inventory_snapshot()
     with sqlite3.connect(store.path) as connection:
         connection.execute("DROP TABLE catalog_price_overrides")
+        connection.execute("DROP TABLE modifier_substitutions")
         connection.execute("PRAGMA user_version=3")
     migrated = H2Store(store.path)
-    assert migrated.schema_version == 4
+    assert migrated.schema_version == 5
     assert migrated.inventory_snapshot() == stock_before
     assert migrated.catalog_price_overrides() == {}
+
+
+def test_v4_to_v5_adds_modifier_substitutions_without_resetting_inventory(tmp_path):
+    store, _ = make_store(tmp_path)
+    before = store.inventory_snapshot()
+    with sqlite3.connect(store.path) as connection:
+        connection.execute("DROP TABLE modifier_substitutions")
+        connection.execute("PRAGMA user_version=4")
+    migrated = H2Store(store.path)
+    assert migrated.schema_version == 5
+    assert migrated.inventory_snapshot() == before
+    assert migrated.seed_demo_directory(FIXTURE_DIR) is False
+    assert migrated.inventory_snapshot() == before
+    with sqlite3.connect(store.path) as connection:
+        assert connection.execute(
+            "SELECT replaced_item_id,substitute_item_id FROM modifier_substitutions WHERE modifier_id='leche_avena'"
+        ).fetchone() == ("leche_entera", "leche_avena")
+        assert connection.execute(
+            "SELECT COUNT(*) FROM modifier_components WHERE modifier_id='leche_avena'"
+        ).fetchone()[0] == 0
 
 
 def test_order_idempotency_and_acceptance_are_atomic(tmp_path):

@@ -75,8 +75,10 @@
     }
   ],
   "synthetic_modifiers": [
-    {"modifier_id": "leche_avena", "inventory_item_id": "leche_avena", "quantity_per_beverage": 220},
     {"modifier_id": "leche_almendras", "inventory_item_id": "leche_almendras", "quantity_per_beverage": 220},
     {"modifier_id": "espresso_extra", "inventory_item_id": "grano_cafe", "quantity_per_beverage": 18}
+  ],
+  "synthetic_substitutions": [
+    {"modifier_id": "leche_avena", "replaces_inventory_item_id": "leche_entera", "substitute_inventory_item_id": "leche_avena"}
   ]
 }

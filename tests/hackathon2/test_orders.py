@@ -38,8 +38,8 @@ def make_workflow(tmp_path, *, cashier_count=3):
     return store, OrderWorkflow(store, catalog, auth)
 
 
-def latte(*, quantity=1, extras=None):
-    return [{"product_id": "hot_latte", "variant": "mediano", "quantity": quantity,
+def latte(*, quantity=1, extras=None, variant="mediano"):
+    return [{"product_id": "hot_latte", "variant": variant, "quantity": quantity,
              "modifier_ids": extras or []}]
 
 
@@ -47,6 +47,7 @@ def confirm(workflow, phone=CUSTOMERS[0], *, now=NOW):
     preview = workflow.prepare_confirmation(phone, latte(extras=["leche_avena"]), now=now)
     assert preview.state == "confirmation_required"
     assert "Confirmo tu pedido:" in preview.text
+    assert "sustitución por Leche de Avena" in preview.text
     assert "$85.00 MXN" in preview.text
     return workflow.respond_to_confirmation(phone, "Sí, confirmo", now=now)
 
@@ -93,6 +94,7 @@ def test_confirmed_order_creates_folio_ticket_and_only_notifies_assignee(tmp_pat
     staff_notice = store.claim_outbox(now=NOW)
     assert staff_notice["recipient_phone"] == assigned[0][0]
     assert result.folio in staff_notice["message_text"]
+    assert "sustitución por Leche de Avena" in staff_notice["message_text"]
 
 
 def test_rechecks_current_stock_and_does_not_create_order_if_unavailable(tmp_path):
@@ -160,8 +162,10 @@ def test_only_current_assignee_can_accept_and_sale_is_atomic(tmp_path):
     workflow.accept(assigned, folio, now=NOW)
     after = store.inventory_snapshot()
     assert after["grano_cafe"]["on_hand"] == before["grano_cafe"]["on_hand"] - 18
-    assert after["leche_entera"]["on_hand"] == before["leche_entera"]["on_hand"] - 220
+    assert after["leche_entera"]["on_hand"] == before["leche_entera"]["on_hand"]
     assert after["leche_avena"]["on_hand"] == before["leche_avena"]["on_hand"] - 220
+    with sqlite3.connect(store.path) as connection:
+        assert connection.execute("SELECT COUNT(*) FROM inventory_movements WHERE source_id=?", (order["order_id"],)).fetchone()[0] == 3
     assert store.customer_order_status(CUSTOMERS[0], folio)["status"] == "aceptado"
     with sqlite3.connect(store.path) as connection:
         assert connection.execute("SELECT status FROM tickets WHERE ticket_id=?", (f"wa-{order['order_id']}",)).fetchone()[0] == "confirmed"
@@ -171,6 +175,29 @@ def test_only_current_assignee_can_accept_and_sale_is_atomic(tmp_path):
     with pytest.raises(H2StorageError):
         workflow.accept(assigned, folio, now=NOW)
     assert store.inventory_snapshot() == after
+
+
+def test_oat_milk_substitution_uses_the_selected_size_recipe_quantity(tmp_path):
+    store, workflow = make_workflow(tmp_path)
+    before = store.inventory_snapshot()
+    preview = workflow.prepare_confirmation(CUSTOMERS[0], latte(extras=["leche_avena"], variant="grande"), now=NOW)
+    assert "sustitución por Leche de Avena" in preview.text
+    assert "$95.00 MXN" in preview.text
+    result = workflow.respond_to_confirmation(CUSTOMERS[0], "sí, confirmo", now=NOW)
+    order = store.order_for_staff_workflow(result.folio)
+    assigned = _round_phones(store, order["order_id"], 1)[0]
+
+    workflow.accept(assigned, result.folio, now=NOW)
+
+    after = store.inventory_snapshot()
+    assert after["leche_entera"]["on_hand"] == before["leche_entera"]["on_hand"]
+    assert after["leche_avena"]["on_hand"] == before["leche_avena"]["on_hand"] - 300
+    with sqlite3.connect(store.path) as connection:
+        movements = connection.execute(
+            "SELECT item_id,quantity_delta FROM inventory_movements WHERE source_id=? ORDER BY item_id",
+            (order["order_id"],),
+        ).fetchall()
+    assert movements == [("grano_cafe", -20), ("leche_avena", -300), ("vaso_16oz", -1)]
 
 
 def test_two_simultaneous_recipients_only_one_acceptance_wins(tmp_path):
@@ -197,7 +224,7 @@ def test_two_simultaneous_recipients_only_one_acceptance_wins(tmp_path):
     after = store.inventory_snapshot()
     assert after["grano_cafe"]["on_hand"] == before["grano_cafe"]["on_hand"] - 18
     with sqlite3.connect(store.path) as connection:
-        assert connection.execute("SELECT COUNT(*) FROM inventory_movements").fetchone()[0] == 4
+        assert connection.execute("SELECT COUNT(*) FROM inventory_movements").fetchone()[0] == 3
         assert connection.execute("SELECT COUNT(*) FROM outbox WHERE dedupe_key LIKE ?", (f"order:{folio}:accepted:%",)).fetchone()[0] == len(set(recipients + [first, second_assignee])) + 1
 
 

@@ -15,7 +15,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
-SCHEMA_VERSION = 4
+SCHEMA_VERSION = 5
 PHONE_RE = re.compile(r"^\+[1-9][0-9]{7,14}$")
 ROLES = {"admin", "manager", "cashier"}
 ORDER_STATES = {"pending_staff", "accepted", "preparing", "ready", "delivered", "rejected", "expired", "cancelled"}
@@ -171,6 +171,9 @@ class H2Store:
                 if version == 3:
                     self._migrate_v3_to_v4(connection)
                     version = 4
+                if version == 4:
+                    self._migrate_v4_to_v5(connection)
+                    version = 5
                 if version == SCHEMA_VERSION:
                     self._verify_schema(connection)
                     return
@@ -201,7 +204,7 @@ class H2Store:
         }
         expected = {"metadata", "staff", "auth_codes", "staff_sessions", "conversations",
                     "webhook_events", "orders", "order_assignments", "inventory_items",
-                    "recipe_components", "modifier_components", "tickets", "inventory_movements",
+                    "recipe_components", "modifier_components", "modifier_substitutions", "tickets", "inventory_movements",
                     "audit_log", "outbox", "order_rounds", "order_recipients", "assistant_jobs",
                     "catalog_price_overrides"}
         if actual != expected:
@@ -275,7 +278,7 @@ class H2Store:
             connection.execute(
                 "CREATE INDEX idx_assistant_jobs_queue ON assistant_jobs(status,queue_sequence)"
             )
-            connection.execute(f"PRAGMA user_version={SCHEMA_VERSION}")
+            connection.execute("PRAGMA user_version=3")
             connection.commit()
         except sqlite3.Error as exc:
             connection.rollback()
@@ -287,11 +290,29 @@ class H2Store:
         try:
             connection.execute("BEGIN IMMEDIATE")
             connection.execute(_CATALOG_PRICE_OVERRIDES_TABLE)
-            connection.execute(f"PRAGMA user_version={SCHEMA_VERSION}")
+            connection.execute("PRAGMA user_version=4")
             connection.commit()
         except sqlite3.Error as exc:
             connection.rollback()
             raise H2StorageError("No se pudo ampliar el catálogo H2; se conservaron los datos existentes.") from exc
+
+    @staticmethod
+    def _migrate_v4_to_v5(connection: sqlite3.Connection) -> None:
+        """Add explicit, inventory-backed ingredient substitutions without resetting stock."""
+        try:
+            connection.execute("BEGIN IMMEDIATE")
+            connection.execute(
+                "CREATE TABLE modifier_substitutions("
+                "modifier_id TEXT PRIMARY KEY,"
+                "replaced_item_id TEXT NOT NULL REFERENCES inventory_items(item_id),"
+                "substitute_item_id TEXT NOT NULL REFERENCES inventory_items(item_id),"
+                "CHECK(replaced_item_id<>substitute_item_id))"
+            )
+            connection.execute("PRAGMA user_version=5")
+            connection.commit()
+        except sqlite3.Error as exc:
+            connection.rollback()
+            raise H2StorageError("No se pudo añadir el esquema de sustituciones; se conservaron los datos existentes.") from exc
 
     @property
     def schema_version(self) -> int:
@@ -301,8 +322,11 @@ class H2Store:
             raise H2StorageError("La versión de base no coincide con la aplicación.")
         return version
 
-    def seed_demo(self, inventory: list[dict], recipes: list[dict], modifiers: list[dict]) -> bool:
-        """Seed synthetic fixtures once. Restarting never restores quantities."""
+    def seed_demo(
+        self, inventory: list[dict], recipes: list[dict], modifiers: list[dict],
+        substitutions: list[dict] | None = None,
+    ) -> bool:
+        """Seed demo quantities once; safely refresh recipe rules without restoring stock."""
         normalized_items = []
         seen_items: set[str] = set()
         for item in inventory:
@@ -315,9 +339,37 @@ class H2Store:
                                      _positive_integer(item.get("on_hand"), "Existencia", allow_zero=True)))
         recipe_rows = self._recipe_rows(recipes, seen_items)
         modifier_rows = self._modifier_rows(modifiers, seen_items)
+        substitution_rows = self._substitution_rows(substitutions or [], seen_items)
+        if {row[0] for row in modifier_rows} & {row[0] for row in substitution_rows}:
+            raise ValueError("Un modificador no puede ser un extra y una sustitución a la vez.")
         with self._transaction() as connection:
             seeded = connection.execute("SELECT value FROM metadata WHERE key='demo_seeded'").fetchone()
             if seeded:
+                for modifier_id, item_id, quantity in modifier_rows:
+                    connection.execute(
+                        "INSERT INTO modifier_components(modifier_id,item_id,quantity) VALUES(?,?,?) "
+                        "ON CONFLICT(modifier_id,item_id) DO UPDATE SET quantity=excluded.quantity",
+                        (modifier_id, item_id, quantity),
+                    )
+                for modifier_id, replaced_item_id, substitute_item_id in substitution_rows:
+                    connection.execute(
+                        "DELETE FROM modifier_components WHERE modifier_id=?", (modifier_id,)
+                    )
+                    connection.execute(
+                        "INSERT INTO modifier_substitutions(modifier_id,replaced_item_id,substitute_item_id) "
+                        "VALUES(?,?,?) ON CONFLICT(modifier_id) DO UPDATE SET "
+                        "replaced_item_id=excluded.replaced_item_id,substitute_item_id=excluded.substitute_item_id",
+                        (modifier_id, replaced_item_id, substitute_item_id),
+                    )
+                configured = {row[0] for row in substitution_rows}
+                if configured:
+                    placeholders = ",".join("?" for _ in configured)
+                    connection.execute(
+                        f"DELETE FROM modifier_substitutions WHERE modifier_id NOT IN ({placeholders})",
+                        tuple(sorted(configured)),
+                    )
+                else:
+                    connection.execute("DELETE FROM modifier_substitutions")
                 return False
             connection.executemany(
                 "INSERT INTO inventory_items(item_id,name,unit,on_hand,updated_at) VALUES(?,?,?,?,?)",
@@ -328,6 +380,10 @@ class H2Store:
             )
             connection.executemany(
                 "INSERT INTO modifier_components(modifier_id,item_id,quantity) VALUES(?,?,?)", modifier_rows
+            )
+            connection.executemany(
+                "INSERT INTO modifier_substitutions(modifier_id,replaced_item_id,substitute_item_id) VALUES(?,?,?)",
+                substitution_rows,
             )
             connection.execute("INSERT INTO metadata(key,value) VALUES('demo_seeded',?)", (utc_now(),))
             return True
@@ -348,9 +404,11 @@ class H2Store:
         ):
             raise H2StorageError("Los datos no están marcados como fixtures sintéticas.")
         items, recipe_rows, modifiers = inventory.get("items"), recipes.get("recipes"), recipes.get("synthetic_modifiers")
-        if not isinstance(items, list) or not isinstance(recipe_rows, list) or not isinstance(modifiers, list):
+        substitutions = recipes.get("synthetic_substitutions", [])
+        if (not isinstance(items, list) or not isinstance(recipe_rows, list) or not isinstance(modifiers, list)
+                or not isinstance(substitutions, list)):
             raise H2StorageError("Las fixtures no cumplen el esquema esperado.")
-        return self.seed_demo(items, recipe_rows, modifiers)
+        return self.seed_demo(items, recipe_rows, modifiers, substitutions)
 
     @staticmethod
     def _recipe_rows(recipes: list[dict], item_ids: set[str]) -> list[tuple[str, str, str, int]]:
@@ -383,6 +441,21 @@ class H2Store:
                 raise ValueError("El extra referencia un insumo inexistente o duplicado.")
             seen.add(modifier_id)
             rows.append((modifier_id, item_id, quantity))
+        return rows
+
+    @staticmethod
+    def _substitution_rows(substitutions: list[dict], item_ids: set[str]) -> list[tuple[str, str, str]]:
+        rows = []
+        seen = set()
+        for substitution in substitutions:
+            modifier_id = _text(substitution.get("modifier_id"), "Sustitución", maximum=128)
+            replaced_id = _text(substitution.get("replaces_inventory_item_id"), "Insumo reemplazado", maximum=128)
+            substitute_id = _text(substitution.get("substitute_inventory_item_id"), "Insumo sustituto", maximum=128)
+            if (modifier_id in seen or replaced_id not in item_ids or substitute_id not in item_ids
+                    or replaced_id == substitute_id):
+                raise ValueError("La sustitución referencia insumos inválidos o duplicados.")
+            seen.add(modifier_id)
+            rows.append((modifier_id, replaced_id, substitute_id))
         return rows
 
     def inventory_snapshot(self) -> dict[str, dict[str, Any]]:
@@ -503,7 +576,29 @@ class H2Store:
             if not base_rows or any(row["on_hand"] is None for row in base_rows):
                 return None
             needs: dict[str, int] = {row["item_id"]: row["quantity"] for row in base_rows}
+            stock = {row["item_id"]: row["on_hand"] for row in base_rows}
+            replaced_items: set[str] = set()
             for modifier in modifiers:
+                substitution = connection.execute(
+                    "SELECT replaced_item_id,substitute_item_id FROM modifier_substitutions WHERE modifier_id=?",
+                    (modifier,),
+                ).fetchone()
+                if substitution is not None:
+                    replaced_item = substitution["replaced_item_id"]
+                    if replaced_item in replaced_items or replaced_item not in needs:
+                        return None
+                    replacement_quantity = needs.pop(replaced_item)
+                    stock.pop(replaced_item, None)
+                    replaced_items.add(replaced_item)
+                    substitute = connection.execute(
+                        "SELECT on_hand FROM inventory_items WHERE item_id=?", (substitution["substitute_item_id"],)
+                    ).fetchone()
+                    if substitute is None:
+                        return None
+                    substitute_item = substitution["substitute_item_id"]
+                    needs[substitute_item] = needs.get(substitute_item, 0) + replacement_quantity
+                    stock[substitute_item] = substitute["on_hand"]
+                    continue
                 row = connection.execute(
                     "SELECT mc.item_id,mc.quantity,i.on_hand FROM modifier_components mc "
                     "LEFT JOIN inventory_items i ON i.item_id=mc.item_id WHERE mc.modifier_id=?", (modifier,)
@@ -511,14 +606,9 @@ class H2Store:
                 if row is None or row["on_hand"] is None:
                     return None
                 needs[row["item_id"]] = needs.get(row["item_id"], 0) + row["quantity"]
-            stock = {row["item_id"]: row["on_hand"] for row in base_rows}
-            for modifier in modifiers:
-                row = connection.execute(
-                    "SELECT mc.item_id,i.on_hand FROM modifier_components mc "
-                    "JOIN inventory_items i ON i.item_id=mc.item_id WHERE mc.modifier_id=?", (modifier,)
-                ).fetchone()
-                if row is not None:
-                    stock[row["item_id"]] = row["on_hand"]
+                stock[row["item_id"]] = row["on_hand"]
+        if not needs or any(item_id not in stock or quantity <= 0 for item_id, quantity in needs.items()):
+            return None
         return min(stock[item_id] // quantity for item_id, quantity in needs.items())
 
     def create_staff(self, phone: str, role: str, *, invited_by: str | None = None, now: str | None = None) -> None:
@@ -1195,10 +1285,14 @@ class H2Store:
                 if not isinstance(snapshots, list) or len(snapshots) != len(modifiers):
                     raise ValueError("La instantánea de extras no coincide con el pedido.")
                 for snapshot in snapshots:
-                    if not isinstance(snapshot, dict) or set(snapshot) != {"id", "name", "price_cents"}:
+                    if (not isinstance(snapshot, dict)
+                            or set(snapshot) not in ({"id", "name", "price_cents"},
+                                                    {"id", "name", "order_label", "price_cents"})):
                         raise ValueError("La instantánea de extras no es válida.")
                     _text(snapshot["id"], "Extra", maximum=128)
                     _text(snapshot["name"], "Nombre del extra", maximum=128)
+                    if "order_label" in snapshot:
+                        _text(snapshot["order_label"], "Descripción del modificador", maximum=128)
                     _positive_integer(snapshot["price_cents"], "Precio del extra", allow_zero=True)
         items_json = _json(items, max_bytes=16_384)
         if all("line_total_cents" in item for item in items) and sum(item["line_total_cents"] for item in items) != total_cents:
@@ -1635,15 +1729,30 @@ class H2Store:
                 if not recipe:
                     raise H2StorageError("El pedido no tiene una receta de inventario confirmada.")
                 quantity = _positive_integer(line["quantity"], "Cantidad")
-                for part in recipe:
-                    needs[part["item_id"]] = needs.get(part["item_id"], 0) + part["quantity"] * quantity
+                line_needs = {part["item_id"]: part["quantity"] for part in recipe}
+                replaced_items: set[str] = set()
                 for modifier in line.get("modifier_ids", []):
+                    substitution = connection.execute(
+                        "SELECT replaced_item_id,substitute_item_id FROM modifier_substitutions WHERE modifier_id=?",
+                        (modifier,),
+                    ).fetchone()
+                    if substitution is not None:
+                        replaced_item = substitution["replaced_item_id"]
+                        if replaced_item in replaced_items or replaced_item not in line_needs:
+                            raise H2StorageError("La sustitución no corresponde a la receta del producto.")
+                        replacement_quantity = line_needs.pop(replaced_item)
+                        replaced_items.add(replaced_item)
+                        substitute_item = substitution["substitute_item_id"]
+                        line_needs[substitute_item] = line_needs.get(substitute_item, 0) + replacement_quantity
+                        continue
                     extra = connection.execute(
                         "SELECT item_id,quantity FROM modifier_components WHERE modifier_id=?", (modifier,)
                     ).fetchone()
                     if extra is None:
                         raise H2StorageError("El extra no tiene una receta de inventario confirmada.")
-                    needs[extra["item_id"]] = needs.get(extra["item_id"], 0) + extra["quantity"] * quantity
+                    line_needs[extra["item_id"]] = line_needs.get(extra["item_id"], 0) + extra["quantity"]
+                for item_id, line_quantity in line_needs.items():
+                    needs[item_id] = needs.get(item_id, 0) + line_quantity * quantity
             if not needs:
                 raise H2StorageError("El pedido no tiene consumos de inventario verificables.")
             if consumption is not None:
@@ -1994,6 +2103,7 @@ _SCHEMA = (
     "CREATE TABLE inventory_items(item_id TEXT PRIMARY KEY,name TEXT NOT NULL,unit TEXT NOT NULL,on_hand INTEGER NOT NULL CHECK(on_hand>=0),updated_at TEXT NOT NULL)",
     "CREATE TABLE recipe_components(product_id TEXT NOT NULL,variant TEXT NOT NULL,item_id TEXT NOT NULL REFERENCES inventory_items(item_id),quantity INTEGER NOT NULL CHECK(quantity>0),PRIMARY KEY(product_id,variant,item_id))",
     "CREATE TABLE modifier_components(modifier_id TEXT NOT NULL,item_id TEXT NOT NULL REFERENCES inventory_items(item_id),quantity INTEGER NOT NULL CHECK(quantity>0),PRIMARY KEY(modifier_id,item_id))",
+    "CREATE TABLE modifier_substitutions(modifier_id TEXT PRIMARY KEY,replaced_item_id TEXT NOT NULL REFERENCES inventory_items(item_id),substitute_item_id TEXT NOT NULL REFERENCES inventory_items(item_id),CHECK(replaced_item_id<>substitute_item_id))",
     "CREATE TABLE tickets(ticket_id TEXT PRIMARY KEY,source TEXT NOT NULL CHECK(source IN ('whatsapp_order','pos_receipt')),sender_phone TEXT NOT NULL,status TEXT NOT NULL CHECK(status IN ('draft','needs_review','confirmed','rejected','expired')),lines_json TEXT NOT NULL,media_reference TEXT,created_at TEXT NOT NULL,expires_at TEXT,reviewed_at TEXT,reviewed_by TEXT REFERENCES staff(phone),fingerprint TEXT NOT NULL)",
     "CREATE TABLE inventory_movements(movement_id TEXT PRIMARY KEY,source_type TEXT NOT NULL CHECK(source_type IN ('order','pos_ticket','adjustment')),source_id TEXT NOT NULL,item_id TEXT NOT NULL REFERENCES inventory_items(item_id),quantity_delta INTEGER NOT NULL CHECK(quantity_delta<>0),actor_phone TEXT NOT NULL,created_at TEXT NOT NULL,UNIQUE(source_type,source_id,item_id))",
     "CREATE TABLE audit_log(sequence INTEGER PRIMARY KEY,actor_phone TEXT NOT NULL,action TEXT NOT NULL,target TEXT NOT NULL,result TEXT NOT NULL,details_json TEXT NOT NULL,created_at TEXT NOT NULL)",

@@ -416,6 +416,11 @@ def test_catalog_suggests_verified_extra_replacements_and_never_guesses_stock(tm
     oat = catalog.available_alternatives("hot_latte", "mediano", ["leche_almendras"])
     assert any(item["modifier_ids"] == ["leche_avena"] for item in oat)
     assert all(item["available_portions"] >= 1 for item in oat)
+    oat_modifier, oat_error = catalog.resolve_extras(["leche de avena"])
+    assert oat_modifier and oat_error is None
+    oat_reply = catalog.check_availability(product, "mediano", oat_modifier)
+    assert "Con sustitución por Leche de Avena" in oat_reply
+    assert "$85.00 MXN" in oat_reply
 
     with store._connect() as connection:
         connection.execute("UPDATE inventory_items SET on_hand=0")

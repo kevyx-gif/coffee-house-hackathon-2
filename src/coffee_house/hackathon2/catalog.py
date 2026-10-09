@@ -269,7 +269,7 @@ class CatalogService:
         if extras:
             base_price = variant.get("price_cents")
             extra_prices = [extra.get("price_cents") for extra in extras]
-            extra_names = ", ".join(str(extra["name"]) for extra in extras)
+            extra_names = ", ".join(str(extra.get("order_label") or f"extra {extra['name']}") for extra in extras)
             if type(base_price) is int and base_price >= 0 and all(
                 type(price) is int and price >= 0 for price in extra_prices
             ):
@@ -391,7 +391,7 @@ class CatalogService:
                     price_text += " (provisional)"
                 label = f"{product['name']} {self._format_variant_size(variant)}"
                 if extras:
-                    label += f" con {', '.join(extra['name'] for extra in extras)}"
+                    label += f" con {', '.join(extra.get('order_label') or ('extra ' + str(extra['name'])) for extra in extras)}"
                 label += f": {price_text}"
                 if quantity > 1:
                     label += f" cada uno; total para {quantity}: ${unit_price * quantity / 100:,.2f} MXN"

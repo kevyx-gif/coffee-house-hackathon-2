@@ -262,7 +262,11 @@ class OrderWorkflow:
                     raise OrderUnavailable("El precio de uno de los extras está por confirmar.")
                 extra_total += price
                 provisional |= extra.get("price_status", "documentado") != "documentado"
-                modifier_snapshot.append({"id": extra["id"], "name": extra["name"], "price_cents": price})
+                modifier_snapshot.append({
+                    "id": extra["id"], "name": extra["name"],
+                    "order_label": extra.get("order_label", f"extra {extra['name']}"),
+                    "price_cents": price,
+                })
             provisional |= selected_variant.get("price_status") != "documentado"
             line_total = (base + extra_total) * quantity
             total += line_total
@@ -298,8 +302,8 @@ def _confirmation_text(lines: list[dict], total: int, provisional: bool) -> str:
     rows = ["Confirmo tu pedido:"]
     for line in lines:
         extras = line["modifier_snapshot"]
-        extra_text = f"; extras: {', '.join(extra['name'] for extra in extras)}" if extras else ""
-        rows.append(f"• {line['quantity']} × {line['product_name']} {line['variant']}{extra_text}: {_money(line['line_total_cents'])}")
+        modifier_text = f"; {', '.join(modifier.get('order_label') or ('extra ' + str(modifier['name'])) for modifier in extras)}" if extras else ""
+        rows.append(f"• {line['quantity']} × {line['product_name']} {line['variant']}{modifier_text}: {_money(line['line_total_cents'])}")
     qualifier = " (precio provisional de la demo)" if provisional else ""
     rows.extend([f"Total: {_money(total)}{qualifier}.", "¿Lo confirmas? El pedido se enviará al personal; todavía no es una venta ni se ha descontado existencia."])
     return "\n".join(rows)
@@ -307,7 +311,10 @@ def _confirmation_text(lines: list[dict], total: int, provisional: bool) -> str:
 
 def _staff_notice(folio: str, lines: list[dict], total: int, provisional: bool) -> str:
     rows = [f"Pedido {folio} para revisión. Todavía no es una venta:"]
-    rows.extend(f"• {line['quantity']} × {line['product_name']} {line['variant']}" for line in lines)
+    for line in lines:
+        modifiers = line["modifier_snapshot"]
+        modifier_text = f"; {', '.join(modifier.get('order_label') or ('extra ' + str(modifier['name'])) for modifier in modifiers)}" if modifiers else ""
+        rows.append(f"• {line['quantity']} × {line['product_name']} {line['variant']}{modifier_text}")
     rows.append(f"Total: {_money(total)}" + (" (provisional de la demo)." if provisional else "."))
     rows.append("Responde aceptar o pasar al siguiente.")
     return "\n".join(rows)
