@@ -6,7 +6,7 @@ El 9 de octubre de 2026 se instaló y habilitó `coffee-house-hackathon2.service
 
 Qwen3Guard está ejecutándose en la torre Debian 13 como servicio persistente del usuario del sistema. La inferencia escucha solo en `127.0.0.1:18473`; el túnel SSH inverso lo publica únicamente en el loopback del VPS, `127.0.0.1:19091`. En el VPS se creó un usuario de túnel sin shell, con una clave dedicada, `AllowTcpForwarding remote`, `PermitListen 127.0.0.1:19091`, `GatewayPorts no` y cero sesiones. La configuración pasó `sshd -t` y la comprobación efectiva; el túnel de Hackathon 1 conserva su puerto y sus restricciones. Los archivos `*-user.service` son las plantillas correspondientes al servicio activo de la torre; las plantillas de sistema muestran una alternativa con cuentas dedicadas.
 
-La suite H2+T1 pasó **106 pruebas y omitió 2** (OCR opcional). La evaluación integrada en el VPS con Groq y la guardia real pasó **5/5 recorridos sintéticos**. Meta confirmó la suscripción de Mozart a la cuenta de WhatsApp de prueba y al campo `messages`; la callback devolvió el desafío válido y rechazó el inválido. No se envió un mensaje real durante estas comprobaciones automatizadas.
+La suite H2+T1 pasó **108 pruebas y omitió 2** (OCR opcional). La evaluación integrada en el VPS con Groq y la guardia real pasó **5/5 recorridos sintéticos**. Meta confirmó la suscripción de Mozart a la cuenta de WhatsApp de prueba y al campo `messages`; la callback devolvió el desafío válido y rechazó el inválido. No se envió un mensaje real durante estas comprobaciones automatizadas.
 
 ## Servicio Linux
 
@@ -16,13 +16,13 @@ Prepara `/etc/coffee-house-hackathon2/hackathon2.env` con permisos `600`; toma c
 
 El servicio H2 usa `QWEN_GUARD_URL=http://127.0.0.1:19091`. El túnel se inicia desde la torre hacia el VPS y permite solo el tramo `127.0.0.1:18473` a `127.0.0.1:19091`. No abras la torre en el router ni en el cortafuegos público.
 
-La cuenta de prueba de WhatsApp Business está suscrita a la app Mozart y al campo `messages`. Meta usa la callback H2 indicada arriba. Nunca apuntes la app a la página H1. En el primer intento desde un teléfono permitido, el evento entró y H2 lo procesó, pero Meta rechazó la respuesta saliente con HTTP 401; la credencial verificada devolvió error 190/463. Renueva un token que incluya permiso de mensajería y vuelve a probar antes de dar por terminada la validación real.
+La cuenta de prueba de WhatsApp Business está suscrita a la app Mozart y al campo `messages`. Meta usa la callback H2 indicada arriba. Nunca apuntes la app a la página H1. El primer intento salió con un token vencido (HTTP 401, error 190/463). Después se instaló y verificó un token nuevo con permiso `whatsapp_business_messaging`. Las consultas manuales llegan al webhook y H2 las procesa, pero Meta rechaza el envío con HTTP 400, código `131030`. En la página **WhatsApp > Configuración de la API**, hay que agregar y verificar el teléfono del usuario como destinatario del mismo número de prueba que usa H2; la suscripción del webhook y el token ya están comprobados. La conversación aún no está validada de extremo a extremo.
 
 ## Estado y siguiente paso
 
 1. Confirma que el servicio H2, la guardia y el túnel están activos antes de probar; consulta el registro de despliegue.
-2. Reemplaza el token vencido en el entorno privado del VPS por uno nuevo con permiso de mensajería. Nunca lo pongas en el repositorio ni en el chat.
-3. Desde un teléfono habilitado como destinatario de prueba en Meta, envía primero una consulta sencilla y comprueba que llega la respuesta.
+2. En **WhatsApp > Configuración de la API**, comprueba que el teléfono desde el que se escribe aparece como destinatario permitido y verificado para el mismo número de prueba que usa H2. No hace falta volver a generar el token ni cambiar el webhook.
+3. Desde ese teléfono, envía una consulta sencilla y comprueba que llega la respuesta del asistente; Meta rechazó los intentos anteriores con el código `131030`.
 4. Después prueba un borrador de pedido, cambios antes de confirmar y la aceptación del personal. Confirma que el inventario solo se descuenta al aceptar.
 5. El OCR está apagado en el despliegue actual; las fotos de tickets solo se evaluaron con datos sintéticos y no se deben enviar a esta demo hasta activar y comprobar esa función.
 6. Usa solo números y datos de prueba. No uses información de clientes reales.

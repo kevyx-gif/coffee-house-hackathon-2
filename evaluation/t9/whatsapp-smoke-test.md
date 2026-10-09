@@ -1,11 +1,12 @@
 # Guion de prueba real de WhatsApp — T9
 
-Este guion permite cerrar la validación externa después de renovar el token. La entrega está habilitada solo para la demo; **no pruebes con clientes**. Usa únicamente el número de prueba de Meta, destinatarios controlados por el administrador y la base sintética de Hackathon 2.
+Este guion permite cerrar la validación externa después de renovar y verificar el token. La entrega está habilitada solo para la demo; **no pruebes con clientes**. Usa únicamente el número de prueba de Meta, destinatarios controlados por el administrador y la base sintética de Hackathon 2.
 
 ## Antes de empezar
 
-- [ ] Renovar `WHATSAPP_ACCESS_TOKEN` con permiso `whatsapp_business_messaging` y reemplazarlo en el archivo privado del servicio. No copiarlo al repositorio, una celda, una captura ni el chat.
-- [ ] Confirmar con una consulta de solo lectura que `PHONE_NUMBER_ID` y el token coinciden. Esta consulta no envía mensajes. Meta documenta el requisito en su [colección oficial de mensajes](https://www.postman.com/meta/whatsapp-business-platform/folder/13382743-ba8d099d-007e-4b52-b9f2-3cf3c60e4fbc).
+- [x] Renovar `WHATSAPP_ACCESS_TOKEN` con permiso `whatsapp_business_messaging` y reemplazarlo en el archivo privado del servicio. No copiarlo al repositorio, una celda, una captura ni el chat.
+- [x] Confirmar con una consulta de solo lectura que `PHONE_NUMBER_ID` y el token coinciden. Esta consulta no envía mensajes. Meta documenta el requisito en su [colección oficial de mensajes](https://www.postman.com/meta/whatsapp-business-platform/folder/13382743-ba8d099d-007e-4b52-b9f2-3cf3c60e4fbc).
+- [ ] En la configuración de la API de la app Mozart, agregar y verificar el teléfono receptor en la lista de destinatarios permitidos del mismo número de prueba que usa H2.
 - [ ] Confirmar que `WHATSAPP_VERIFY_TOKEN` coincide exactamente con el configurado en Meta y que `META_APP_SECRET` valida la firma.
 - [ ] Usar HTTPS hacia el webhook `/webhook`; el proceso FastAPI debe seguir escuchando solo en `127.0.0.1:18795`.
 - [ ] Mantener `H2_ALLOW_EXTERNAL_TEXT=true` y `H2_ENABLE_META_DELIVERY=true` únicamente mientras se ejecuta esta prueba con texto sintético y números permitidos de prueba. Apagarlos al terminar.
@@ -35,6 +36,6 @@ Este guion permite cerrar la validación externa después de renovar el token. L
 
 ## Estado de la primera prueba manual
 
-El 9 de octubre de 2026 se envió desde Android una consulta sintética al número de prueba de Meta. El webhook recibió el evento y el trabajo del asistente terminó; la bandeja de salida quedó fallida con HTTP 401. La comprobación privada de la credencial devolvió el error Graph API 190/subcódigo 463, consistente con un token vencido o revocado. No llegó una respuesta al teléfono, no se creó ni aceptó un pedido y esta prueba no se considera aprobada. No se guardó una captura porque la interfaz incluía elementos personales ajenos a la prueba.
+El 9 de octubre de 2026, la primera consulta desde Android llegó al webhook y fue procesada, pero el envío salió con HTTP 401; una lectura privada devolvió error Graph API 190/463. Ese token se renovó y el nuevo pasó las consultas Graph de solo lectura con permiso `whatsapp_business_messaging`. Las consultas siguientes volvieron a llegar al webhook y a completarse; con el nuevo token, la bandeja de salida registró `meta_http_400_graph_131030`. Meta no entregó una respuesta al teléfono. El código apunta a que el receptor aún no está en la lista permitida del número de prueba utilizado por H2; el token y el webhook ya están comprobados. No se creó ni aceptó ningún pedido, ni cambió el inventario. Esta prueba no se considera aprobada.
 
-Renovar `WHATSAPP_ACCESS_TOKEN` con permiso de mensajería, guardarlo en el entorno privado del VPS y reiniciar H2 antes de repetir la consulta. No copiar el token al repositorio ni enviarlo por chat. Cuando la consulta simple responda, completar el flujo controlado de pedido descrito arriba.
+Agregar y verificar el teléfono receptor en **WhatsApp > Configuración de la API** para el mismo número de prueba y repetir una consulta sencilla. No hace falta regenerar el token ni cambiar el webhook. No copiar credenciales al repositorio o al chat. Cuando responda la consulta simple, completar el flujo controlado de pedido descrito arriba.
