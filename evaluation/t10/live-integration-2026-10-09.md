@@ -24,12 +24,12 @@ Resultado: **5/5 casos pasaron**. La mediana fue 14.122 segundos y el rango, 5.8
 - Qwen3Guard local respondió `Safe` a una consulta normal y `Controversial` a un intento sintético de inyección.
 - El servicio H2 recibió una clasificación a través del túnel privado y se pausó con seguridad si la guardia no podía validar.
 - Meta confirmó la app Mozart, el campo `messages` y la callback dedicada de H2.
-- Suite H2+T1: **109 aprobadas, 2 omitidas** por requerir Tesseract.
+- Suite H2+T1: **111 aprobadas, 2 omitidas** por requerir Tesseract.
 - Hackathon 1 mantuvo su ruta y respondió HTTP 200 durante la revisión del VPS.
 
-## Qué falta
+## Preflight de Meta y alcance de esta evidencia
 
-La lista «A» de Meta ya contiene el teléfono receptor en el formato `52` + número nacional. El webhook entrega móviles mexicanos como `521` + número nacional. Una prueba directa al formato mostrado por Meta fue aceptada y luego reportó los estados `sent`, `delivered` y `read`. H2 normaliza este identificador al recibir el webhook para que la conversación, la autorización del personal y la respuesta utilicen el formato actual `+52`; el cambio ya está desplegado y el webhook público pasó el desafío HTTPS. El 9 de octubre, una consulta desde Android preguntó qué tipos de latte hay; el asistente respondió con las opciones del menú y Meta confirmó `sent`, `delivered` y `read`. La consulta tardó aproximadamente 22 segundos en procesarse. El cliente confirmó el pedido de prueba **CH-F9B87265** por **$85 MXN**. El administrador recibió el aviso, pero no respondió dentro del plazo de 10 minutos; el pedido expiró y se notificó al cliente. No se descontó inventario. No usar clientes ni datos reales.
+Durante el preflight se resolvieron el token vencido y la diferencia entre el identificador mexicano `521...` recibido por webhook y el formato `52...` permitido por Meta. La normalización quedó desplegada; la callback pública y los mensajes se comprobaron. La consulta del menú funcionó y el primer pedido **CH-F9B87265** expiró tras 10 minutos, sin aceptación ni descuento de inventario. Los intentos y su cronología se detallan más abajo. Solo se usaron teléfonos y datos de prueba.
 
 OCR está apagado en el VPS. La prueba sintética no cubre reconocimiento de fotos ni acredita el ciclo real de mensajes entrantes y salientes. No es una validación de producción.
 
@@ -53,7 +53,37 @@ La respuesta automática a la consulta anterior sobre el menú también quedó r
 
 ![Captura redactada de la consulta sobre los lattes y la respuesta del asistente; el contacto está oculto.](evidence/whatsapp-menu-query.png)
 
-Para cerrar el ciclo de aceptación y existencias, hace falta iniciar un pedido de prueba nuevo y que el personal autorizado lo acepte antes de su vencimiento. Entonces se debe comprobar que se registre una sola venta y un solo movimiento de inventario.
+Ese primer pedido no cerró el ciclo porque el personal no lo aceptó. Se conservó como pedido expirado, sin venta ni movimiento.
+
+## Primer pedido aceptado en vivo y hallazgo de sustitución
+
+Más tarde, un tercer número permitido por Meta hizo un nuevo pedido de Latte mediano con leche de avena. El cliente confirmó el resumen de **$85.00 MXN**. El número autorizado de personal aceptó el folio **CH-D868A8CB** dentro del plazo. SQLite registra un pedido aceptado, una venta y cuatro movimientos únicos: café, leche entera, leche de avena y vaso. Los avisos de aceptación se enviaron al cliente y al personal.
+
+La prueba detectó que el catálogo llamaba “extra” a la leche de avena: el aviso al personal no explicaba la opción y el registro descontó tanto leche entera como avena. No se revirtió ni reescribió esa operación aceptada. La evidencia del teléfono del personal se recortó para excluir el encabezado y los datos del contacto.
+
+La captura del cliente muestra la confirmación de ese primer pedido y el texto anterior que describía la avena como extra. Se recortó el encabezado con el número de teléfono; esta imagen documenta el hallazgo que motivó la corrección:
+
+![Captura del primer pedido aceptado, anterior a la corrección: la avena aparecía como extra. Encabezado y número del contacto recortados.](evidence/whatsapp-first-accepted-customer-before-fix.png)
+
+![Aceptación del folio de demostración en WhatsApp por personal autorizado; captura recortada y sin datos de contacto.](evidence/whatsapp-order-accepted-admin.png)
+
+## Corrección de la sustitución de leche de avena
+
+El cliente aclaró que la avena debe sustituir a la leche entera. La versión **9cea3d3** cambia esa regla en el catálogo sintético, calcula la cantidad de avena según el tamaño, muestra la sustitución tanto al cliente como al personal y migra SQLite de la versión 4 a la 5. La migración se probó sobre una copia de la base del VPS; al desplegarla se verificó que las existencias no cambiaron, los pedidos anteriores se conservaron y no había pedidos pendientes. El servicio quedó activo.
+
+## Segundo pedido aceptado en vivo tras la corrección
+
+Con la versión **9cea3d3** activa, un tercer número de prueba inició un pedido de Latte grande con leche de avena. El resumen indicó claramente que la avena sustituía a la leche entera; el cliente confirmó el total de **$95.00 MXN** y el pedido **CH-13959459** quedó asignado al personal autorizado. El personal aceptó el folio desde el teléfono conectado a scrcpy.
+
+La comprobación de SQLite confirmó el estado aceptado, una sola venta y exactamente tres movimientos únicos: **−20 g de café, −300 ml de leche de avena y −1 vaso de 16 oz**. La leche entera no tuvo movimiento. Las existencias de la prueba se compararon con la copia de resguardo tomada antes de desplegar el cambio, que ya incluía el pedido anterior; los deltas corresponden únicamente a esta segunda venta. Los avisos de aceptación para cliente y personal quedaron procesados por WhatsApp y marcados como leídos. El servicio permaneció activo.
+
+La captura redactada del teléfono del personal conserva el resumen de sustitución, el folio, el total y la confirmación de aceptación; se recortó para quitar el encabezado del chat y la información del contacto:
+
+![Aceptación del pedido CH-13959459: Latte grande con leche de avena como sustitución y total $95 MXN. Captura redactada del teléfono del personal.](evidence/whatsapp-order-oat-substitution-accepted-admin.png)
+
+La captura del teléfono del cliente confirma la solicitud, la sustitución por avena, el total, el folio y el aviso de aceptación. Se eliminó del recorte el encabezado con el número y la interfaz del teléfono:
+
+![Vista del cliente del pedido CH-13959459, desde la confirmación del total hasta el aviso de aceptación del personal. Encabezado y número del contacto recortados.](evidence/whatsapp-corrected-order-accepted-customer.png)
 
 ## Validación móvil de acceso y consulta de existencias
 
@@ -63,4 +93,4 @@ La captura se recortó para excluir el encabezado del chat, los números telefó
 
 ![Consulta móvil de inventario de demostración mediante la sesión autorizada de personal.](evidence/whatsapp-inventory-mobile.png)
 
-Queda pendiente cerrar en vivo el ciclo de venta: confirmar un pedido, aceptarlo con personal autorizado y comprobar una sola venta, un solo descuento y la notificación al cliente. Hasta entonces, la aceptación, el descuento y los avisos de estado se consideran cubiertos por las pruebas sintéticas documentadas, no por una venta real en WhatsApp.
+El ciclo de venta quedó comprobado con la regla actualizada: sustitución por tamaño, confirmación del cliente, aceptación de personal autorizado, una venta, descuentos idempotentes y avisos a ambas partes. Toda la existencia y las ventas siguen siendo datos sintéticos de la demostración; esto no acredita una venta con clientes reales.

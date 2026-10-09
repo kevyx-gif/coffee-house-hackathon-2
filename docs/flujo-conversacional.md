@@ -8,7 +8,7 @@ El acceso del personal y los códigos de un solo uso se resuelven localmente. Ni
 
 La disponibilidad procede de las recetas y cantidades de demostración del repositorio y no está conectada a la operación real de la cafetería. Si un producto o tamaño no tiene receta, se indica que el personal debe confirmarlo. Los precios provisionales se identifican como tales. Los extras reconocidos se suman al total; los extras desconocidos no se aceptan por inferencia.
 
-Ejemplo de salida generada desde los datos locales: «Sí, todavía tenemos el Latte mediano (360 ml / 12 oz). $70.00 MXN. Con Leche de Avena, el total sería $85.00 MXN».
+Ejemplo de salida generada desde los datos locales: «Sí, todavía tenemos el Latte mediano (360 ml / 12 oz). $70.00 MXN. Con sustitución por Leche de Avena, el total sería $85.00 MXN».
 
 ## Límites pendientes
 
